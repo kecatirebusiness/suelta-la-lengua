@@ -1,0 +1,727 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Suelta la lengua · Clase gratis</title>
+<meta name="description" content="El reto de 30 días para hablar a cámara sin miedo y sin cortes. Apúntate a la lista de espera y recibe una clase gratis.">
+<meta name="theme-color" content="#FAFAF8">
+<meta property="og:title" content="Suelta la lengua · Clase gratis">
+<meta property="og:description" content="Habla a cámara sin miedo y sin cortes. Apúntate y recibe la primera clase gratis.">
+<meta property="og:image" content="https://sueltalalengua.com/assets/og.png">
+<meta property="og:type" content="website">
+<link rel="icon" href="assets/marca.svg" type="image/svg+xml">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Lexend:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+:root{
+  --rojo:#D9161D; --rojo-h:#B91217; --azul:#3B4BA8; --magenta:#D6007A; --rojo-suave:#FDECEC;
+  --tinta:#16161D; --tinta-suave:#5E5E6B; --linea:#E4E4EA; --fondo:#FAFAF8; --blanco:#fff;
+  --grad:linear-gradient(90deg,#3B4BA8 0%,#E81E25 55%,#D6007A 100%);
+  --r-input:8px; --r-card:28px;
+  --gutter:20px; --col:560px;
+  --ease:cubic-bezier(.22,1,.36,1);
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{-webkit-text-size-adjust:100%;scroll-behavior:smooth}
+body{font-family:Lexend,system-ui,-apple-system,sans-serif;background:var(--fondo);color:var(--tinta);
+  font-size:16px;line-height:1.5;overflow-x:hidden;-webkit-font-smoothing:antialiased}
+img,svg{display:block;max-width:100%}
+button,input,select{font:inherit;color:inherit}
+a{color:inherit}
+.rojo{color:var(--rojo)}
+.col{width:100%;max-width:var(--col);margin:0 auto;padding:0 var(--gutter)}
+.etiqueta{font-size:12px;line-height:16px;font-weight:600;letter-spacing:.12em;text-transform:uppercase;color:var(--rojo)}
+.h2{font-size:clamp(30px,8.4vw,40px);line-height:1.1;font-weight:600;letter-spacing:-.02em}
+.sub{font-size:17px;line-height:26px;color:var(--tinta-suave)}
+
+/* ── Botón ─────────────────────────────── */
+.btn{position:relative;display:flex;align-items:center;justify-content:center;gap:10px;width:100%;
+  min-height:60px;padding:0 28px;border:0;border-radius:999px;background:var(--rojo);color:#fff;
+  font-size:17px;font-weight:600;text-decoration:none;cursor:pointer;overflow:hidden;isolation:isolate;
+  transition:transform .35s var(--ease),background .25s}
+.btn::after{content:"";position:absolute;inset:0;z-index:-1;
+  background:linear-gradient(110deg,transparent 30%,rgba(255,255,255,.28) 50%,transparent 70%);
+  transform:translateX(-120%);animation:brillo 3.6s var(--ease) infinite 1.5s}
+@keyframes brillo{0%{transform:translateX(-120%)}35%,100%{transform:translateX(120%)}}
+.btn:hover{background:var(--rojo-h)}
+.btn:active{transform:scale(.97)}
+.btn svg{width:20px;height:20px;transition:transform .35s var(--ease)}
+.btn:hover svg{transform:translateX(4px)}
+.btn[disabled]{opacity:.85;cursor:progress}
+
+/* ── Barra superior ───────────────────── */
+.top{position:sticky;top:0;z-index:40;background:rgba(250,250,248,.82);backdrop-filter:blur(14px);
+  -webkit-backdrop-filter:blur(14px);border-bottom:1px solid transparent;transition:border-color .3s}
+.top.scrolled{border-color:var(--linea)}
+.top .col{display:flex;align-items:center;justify-content:space-between;height:64px}
+.top img{height:34px;width:auto}
+.vivo{display:inline-flex;align-items:center;gap:8px;padding:7px 12px;border:1px solid var(--linea);border-radius:999px;
+  background:#fff;font-size:12px;font-weight:500;color:var(--tinta-suave);white-space:nowrap}
+.punto{width:8px;height:8px;border-radius:50%;background:var(--rojo);position:relative}
+.punto::after{content:"";position:absolute;inset:0;border-radius:50%;background:var(--rojo);animation:latido 1.6s ease-out infinite}
+@keyframes latido{0%{transform:scale(1);opacity:.7}100%{transform:scale(3);opacity:0}}
+
+/* ── Hero ─────────────────────────────── */
+.hero{padding:28px 0 8px}
+.hero h1{font-size:clamp(38px,10.6vw,68px);line-height:1;font-weight:600;letter-spacing:-.035em;margin:14px 0 18px}
+.hero h1 .linea{display:block;overflow:hidden;padding-bottom:.08em;margin-bottom:-.08em}
+.hero h1 .linea>span{display:inline-block}
+.subrayado{position:relative;white-space:nowrap}
+.subrayado svg{position:absolute;left:-2%;bottom:-.14em;width:104%;height:.32em;overflow:visible}
+.subrayado path{fill:none;stroke:var(--rojo);stroke-width:6;stroke-linecap:round}
+.hero .sub{max-width:30em}
+
+/* Visor de cámara */
+.visor{position:relative;margin:28px 0 24px;aspect-ratio:4/4.3;border-radius:var(--r-card);overflow:hidden;
+  background:radial-gradient(120% 90% at 50% 0%,#2A2A35 0%,#16161D 60%);color:#fff;
+  box-shadow:0 30px 60px -30px rgba(22,22,29,.55)}
+.visor .esq{position:absolute;width:26px;height:26px;border:2.5px solid rgba(255,255,255,.85)}
+.esq.a{top:18px;left:18px;border-right:0;border-bottom:0;border-radius:8px 0 0 0}
+.esq.b{top:18px;right:18px;border-left:0;border-bottom:0;border-radius:0 8px 0 0}
+.esq.c{bottom:18px;left:18px;border-right:0;border-top:0;border-radius:0 0 0 8px}
+.esq.d{bottom:18px;right:18px;border-left:0;border-top:0;border-radius:0 0 8px 0}
+.visor .barra{position:absolute;top:26px;left:56px;right:56px;display:flex;justify-content:space-between;align-items:center;
+  font-size:13px;font-weight:600;letter-spacing:.08em}
+.rec{display:inline-flex;align-items:center;gap:8px}
+.rec i{width:10px;height:10px;border-radius:50%;background:var(--rojo);animation:parpadeo 1.2s steps(2) infinite}
+@keyframes parpadeo{50%{opacity:.15}}
+.toma{font-weight:500;color:rgba(255,255,255,.6);letter-spacing:.06em}
+.onda{position:absolute;left:0;right:0;top:50%;transform:translateY(-62%);display:flex;align-items:center;justify-content:center;gap:5px;height:120px}
+.onda span{width:5px;height:20%;border-radius:4px;background:#fff;opacity:.9;transform-origin:center}
+.onda span:nth-child(3n){background:var(--rojo)}
+.subtitulo{position:absolute;left:22px;right:22px;bottom:58px;text-align:center;font-size:clamp(19px,5.4vw,24px);
+  line-height:1.3;font-weight:600;min-height:2.6em;display:flex;flex-wrap:wrap;align-content:flex-end;justify-content:center}
+.subtitulo span{display:inline-block;opacity:.25;transition:opacity .18s,color .18s;margin:0 .14em}
+.subtitulo span.on{opacity:1}
+.subtitulo span.clave.on{color:#FF4A50}
+.progreso{position:absolute;left:24px;right:24px;bottom:30px;height:4px;border-radius:4px;background:rgba(255,255,255,.18);overflow:hidden}
+.progreso i{display:block;height:100%;width:0;background:var(--grad);border-radius:4px}
+
+.chips-hero{display:flex;flex-wrap:wrap;gap:8px;justify-content:center;margin-top:16px}
+.chips-hero span{display:inline-flex;align-items:center;gap:6px;font-size:13px;color:var(--tinta-suave)}
+.chips-hero svg{width:16px;height:16px;color:var(--rojo)}
+
+/* ── Cinta ────────────────────────────── */
+.cinta{margin:44px 0 0;background:var(--tinta);color:#fff;overflow:hidden;transform:rotate(-2deg) scale(1.04);padding:14px 0}
+.cinta .pista{display:flex;width:max-content;animation:cinta 22s linear infinite}
+.cinta span{font-size:15px;font-weight:600;letter-spacing:.14em;text-transform:uppercase;padding:0 18px;white-space:nowrap;display:flex;align-items:center;gap:36px}
+.cinta span::after{content:"";width:8px;height:8px;border-radius:50%;background:var(--rojo)}
+@keyframes cinta{to{transform:translateX(-50%)}}
+
+/* ── Formulario ───────────────────────── */
+.seccion{padding:72px 0 0}
+.form-card{position:relative;background:#fff;border:1px solid var(--linea);border-radius:var(--r-card);padding:28px 22px 24px;
+  scroll-margin-top:80px;overflow:hidden}
+.form-card::before{content:"";position:absolute;left:0;right:0;top:0;height:5px;background:var(--grad)}
+.form-card h2{font-size:28px;line-height:1.15;font-weight:600;letter-spacing:-.02em;margin:10px 0 6px}
+.form-card .sub{font-size:15px;line-height:22px;margin-bottom:22px}
+.campo{margin-bottom:16px}
+.campo label,.campo .lbl{display:block;font-size:14px;font-weight:500;margin-bottom:8px}
+.campo .opc{font-weight:400;color:var(--tinta-suave)}
+.input{width:100%;height:56px;padding:0 16px;border:1.5px solid var(--linea);border-radius:var(--r-input);background:var(--fondo);
+  font-size:16px;outline:none;transition:border-color .2s,background .2s,box-shadow .2s;-webkit-appearance:none;appearance:none}
+.input::placeholder{color:#9A9AA6}
+.input:focus{border-color:var(--tinta);background:#fff;box-shadow:0 0 0 4px rgba(22,22,29,.06)}
+.campo.error .input{border-color:var(--rojo);background:var(--rojo-suave);animation:sacudir .4s}
+.campo .msg{display:none;font-size:13px;color:var(--rojo);margin-top:6px}
+.campo.error .msg{display:block}
+@keyframes sacudir{20%,60%{transform:translateX(-6px)}40%,80%{transform:translateX(6px)}}
+.tel{display:flex;gap:8px}
+.tel select{width:112px;flex:none;padding-right:28px;
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' fill='none' stroke='%2316161D' stroke-width='2'%3E%3Cpath d='M1 1.5l5 5 5-5'/%3E%3C/svg%3E");
+  background-repeat:no-repeat;background-position:right 12px center}
+.frenos{display:flex;flex-wrap:wrap;gap:8px}
+.frenos input{position:absolute;opacity:0;pointer-events:none}
+.frenos label{display:inline-flex;align-items:center;min-height:44px;padding:0 16px;margin:0;border:1.5px solid var(--linea);
+  border-radius:999px;background:var(--fondo);font-size:14px;font-weight:500;cursor:pointer;user-select:none;
+  transition:transform .3s var(--ease),background .2s,border-color .2s,color .2s}
+.frenos label:active{transform:scale(.94)}
+.frenos input:checked+label{background:var(--tinta);border-color:var(--tinta);color:#fff;animation:pop .4s var(--ease)}
+.frenos input:focus-visible+label{outline:2px solid var(--tinta);outline-offset:2px}
+@keyframes pop{40%{transform:scale(1.08)}}
+.legal{margin-top:14px;font-size:12px;line-height:18px;color:var(--tinta-suave);text-align:center}
+.spinner{width:22px;height:22px;border:2.5px solid rgba(255,255,255,.35);border-top-color:#fff;border-radius:50%;animation:gira .7s linear infinite}
+@keyframes gira{to{transform:rotate(360deg)}}
+
+/* Éxito */
+.exito{display:none;text-align:center}
+.form-card.listo form{display:none}
+.form-card.listo .exito{display:block}
+.check{width:76px;height:76px;margin:6px auto 18px;border-radius:50%;background:var(--rojo-suave);display:grid;place-items:center}
+.check svg{width:38px;height:38px}
+.check path{fill:none;stroke:var(--rojo);stroke-width:4;stroke-linecap:round;stroke-linejoin:round;stroke-dasharray:40;stroke-dashoffset:40}
+.form-card.listo .check path{animation:trazo .6s .25s var(--ease) forwards}
+@keyframes trazo{to{stroke-dashoffset:0}}
+.exito h2{margin-top:6px}
+.video{position:relative;aspect-ratio:16/9;border-radius:18px;overflow:hidden;background:var(--tinta);margin:20px 0 14px}
+.video iframe{position:absolute;inset:0;width:100%;height:100%;border:0}
+.paso{display:flex;gap:12px;align-items:flex-start;text-align:left;padding:16px 0;border-top:1px solid var(--linea)}
+.paso b{flex:none;width:28px;height:28px;border-radius:50%;background:var(--tinta);color:#fff;font-size:13px;display:grid;place-items:center}
+.paso p{font-size:15px;line-height:22px;color:var(--tinta-suave)}
+.paso strong{display:block;color:var(--tinta);font-weight:600;margin-bottom:2px}
+.paso .btn{margin-top:12px;min-height:54px;font-size:16px}
+.aviso-mail{margin-top:8px;padding:14px 16px;border-radius:14px;background:var(--rojo-suave);font-size:14px;line-height:20px;text-align:left}
+.burbujas{position:absolute;inset:0;pointer-events:none;overflow:hidden}
+.burbujas i{position:absolute;width:14px;height:12px;border-radius:5px;background:var(--grad)}
+
+/* ── ¿Te suena? ───────────────────────── */
+.burbuja{display:inline-block;padding:14px 26px;border:3px solid var(--rojo);border-radius:999px;background:#fff;
+  font-size:22px;font-weight:600;transform:rotate(-10deg);margin:6px 0 26px 4px}
+.frases{display:grid;gap:14px;margin-top:8px}
+.frase{background:#fff;border:1px solid var(--linea);border-radius:var(--r-card);padding:22px}
+.frase q{position:relative;display:inline-block;font-size:22px;line-height:1.25;font-weight:600;color:var(--tinta);quotes:"“" "”"}
+.frase q::after{content:close-quote}
+.frase q .tachon{position:absolute;left:-2%;right:-2%;top:54%;height:3px;border-radius:3px;background:var(--rojo);transform:scaleX(0);transform-origin:left}
+.frase p{margin-top:10px;font-size:15px;line-height:22px;color:var(--tinta-suave)}
+.remate{margin-top:26px;font-size:22px;line-height:1.3;font-weight:600}
+
+/* ── Lo que te llevas ─────────────────── */
+.items{display:grid;gap:12px;margin-top:26px}
+.item{display:flex;gap:18px;align-items:flex-start;padding:22px;border-radius:var(--r-card);background:#fff;border:1px solid var(--linea)}
+.item .n{flex:none;font-size:38px;line-height:1;font-weight:600;color:var(--rojo);letter-spacing:-.04em;width:52px}
+.item h3{font-size:19px;line-height:1.3;font-weight:600;margin-bottom:4px}
+.item p{font-size:15px;line-height:22px;color:var(--tinta-suave)}
+
+/* ── 30 días ──────────────────────────── */
+.reto{margin-top:72px;padding:64px 0 60px;background:var(--tinta);color:#fff;border-radius:36px 36px 0 0}
+.reto .etiqueta{color:#FF4A50}
+.reto .sub{color:rgba(255,255,255,.66)}
+.contador{display:flex;align-items:baseline;gap:10px;margin:28px 0 18px;font-weight:600}
+.contador .dia{font-size:64px;line-height:1;letter-spacing:-.04em;font-variant-numeric:tabular-nums}
+.contador .de{font-size:18px;color:rgba(255,255,255,.5)}
+.grid30{display:grid;grid-template-columns:repeat(6,1fr);gap:7px}
+.grid30 span{aspect-ratio:1;border-radius:10px;background:rgba(255,255,255,.07);display:grid;place-items:center;
+  font-size:13px;font-weight:500;color:rgba(255,255,255,.4);transition:background .3s,color .3s}
+.grid30 span.on{background:var(--rojo);color:#fff}
+.grid30 span.on.fin{background:#fff;color:var(--tinta)}
+.semanas{display:grid;gap:0;margin-top:30px}
+.semana{display:flex;gap:16px;padding:16px 0;border-top:1px solid rgba(255,255,255,.12)}
+.semana b{flex:none;width:86px;white-space:nowrap;font-size:12px;font-weight:600;letter-spacing:.08em;color:rgba(255,255,255,.5);padding-top:3px}
+.semana h3{font-size:18px;font-weight:600;line-height:1.3}
+.semana p{font-size:14px;line-height:21px;color:rgba(255,255,255,.62);margin-top:2px}
+
+/* ── Manifiesto ───────────────────────── */
+.manifiesto{background:var(--tinta);padding:20px 0 80px}
+.manifiesto p{font-size:clamp(38px,11vw,60px);line-height:1.04;font-weight:600;letter-spacing:-.03em}
+.manifiesto .w{color:rgba(255,255,255,.14);transition:color .2s}
+.manifiesto .w.on{color:#fff}
+.manifiesto .w.on.clave{color:#FF4A50}
+
+/* ── FAQ ──────────────────────────────── */
+.faq{margin-top:22px;border-top:1px solid var(--linea)}
+.faq details{border-bottom:1px solid var(--linea)}
+.faq summary{list-style:none;display:flex;justify-content:space-between;align-items:center;gap:16px;padding:20px 0;
+  font-size:17px;font-weight:500;cursor:pointer}
+.faq summary::-webkit-details-marker{display:none}
+.faq summary i{flex:none;width:28px;height:28px;border-radius:50%;border:1.5px solid var(--linea);position:relative;transition:transform .35s var(--ease),background .2s}
+.faq summary i::before,.faq summary i::after{content:"";position:absolute;left:50%;top:50%;width:11px;height:1.75px;background:var(--tinta);transform:translate(-50%,-50%)}
+.faq summary i::after{transform:translate(-50%,-50%) rotate(90deg)}
+.faq details[open] summary i{transform:rotate(45deg);background:var(--rojo-suave)}
+.faq .resp{overflow:hidden}
+.faq .resp p{padding:0 0 20px;font-size:15px;line-height:23px;color:var(--tinta-suave)}
+
+/* ── Cierre ───────────────────────────── */
+.cierre{margin:72px 0 0;padding:44px 24px 32px;border-radius:var(--r-card);background:var(--rojo-suave);text-align:center}
+.cierre img{width:84px;margin:0 auto 18px}
+.cierre .h2{margin-bottom:10px}
+.cierre .sub{font-size:15px;margin-bottom:24px}
+footer{padding:36px 0 120px;text-align:center;font-size:13px;color:var(--tinta-suave)}
+footer .grad{width:120px;height:6px;border-radius:6px;background:var(--grad);margin:0 auto 18px}
+
+/* ── CTA fija móvil ───────────────────── */
+.fija{position:fixed;left:0;right:0;bottom:0;z-index:50;padding:12px var(--gutter) calc(12px + env(safe-area-inset-bottom));
+  background:linear-gradient(to top,var(--fondo) 62%,rgba(250,250,248,0));transform:translateY(110%);transition:transform .5s var(--ease)}
+.fija.ver{transform:none}
+.fija .btn{max-width:calc(var(--col) - 2*var(--gutter));margin:0 auto;box-shadow:0 14px 30px -12px rgba(217,22,29,.55)}
+
+/* Reveal (solo si hay JS) */
+.js .rv{opacity:0;transform:translateY(28px)}
+
+@media (min-width:720px){
+  :root{--col:600px}
+  body{background:radial-gradient(1200px 600px at 50% -10%,#fff 0%,var(--fondo) 60%)}
+}
+@media (prefers-reduced-motion:reduce){
+  *,*::before,*::after{animation:none!important;transition:none!important}
+  .js .rv{opacity:1;transform:none}
+}
+</style>
+</head>
+<body>
+
+<header class="top" id="top">
+  <div class="col">
+    <a href="#" aria-label="Suelta la lengua"><img src="assets/logo.svg" alt="Suelta la lengua" width="105" height="37"></a>
+    <span class="vivo"><span class="punto"></span>Lista de espera abierta</span>
+  </div>
+</header>
+
+<main>
+  <!-- HERO -->
+  <section class="hero">
+    <div class="col">
+      <p class="etiqueta h-in">Reto de 30 días · Clase gratis</p>
+      <h1 aria-label="Habla a cámara sin miedo y sin cortes">
+        <span class="linea"><span>Habla a cámara</span></span>
+        <span class="linea"><span>sin miedo y</span></span>
+        <span class="linea"><span class="rojo subrayado">sin cortes<svg viewBox="0 0 200 14" preserveAspectRatio="none" aria-hidden="true"><path d="M3 9 C 50 2, 120 2, 197 7"/></svg></span></span>
+      </h1>
+      <p class="sub h-in">Apúntate a la lista de espera. Hoy te regalamos la primera clase y entras al grupo de WhatsApp donde compartimos todo gratis.</p>
+
+      <div class="visor h-in" aria-hidden="true">
+        <i class="esq a"></i><i class="esq b"></i><i class="esq c"></i><i class="esq d"></i>
+        <div class="barra"><span class="rec"><i></i><span id="reloj">00:00</span></span><span class="toma">TOMA 1 · SIN CORTES</span></div>
+        <div class="onda" id="onda"></div>
+        <div class="subtitulo" id="subtitulo"></div>
+        <div class="progreso"><i id="progreso"></i></div>
+      </div>
+
+      <a class="btn h-in" href="#apuntate" data-cta>Quiero mi clase gratis
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
+      <div class="chips-hero h-in">
+        <span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg>Clase en video</span>
+        <span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg>Grupo de WhatsApp</span>
+        <span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg>Sin costo</span>
+      </div>
+    </div>
+  </section>
+
+  <div class="cinta" aria-hidden="true"><div class="pista">
+    <span>Sin guion</span><span>Sin editar</span><span>Sin repetir la toma</span><span>Un video al día</span>
+    <span>Sin guion</span><span>Sin editar</span><span>Sin repetir la toma</span><span>Un video al día</span>
+  </div></div>
+
+  <!-- FORMULARIO -->
+  <section class="seccion">
+    <div class="col">
+      <div class="form-card rv" id="apuntate">
+        <form id="form" novalidate>
+          <p class="etiqueta">Lista de espera</p>
+          <h2>Recibe tu clase <span class="rojo">gratis</span></h2>
+          <p class="sub">Te llega al correo en menos de un minuto.</p>
+
+          <div class="campo" data-campo="nombre">
+            <label for="nombre">Tu nombre</label>
+            <input class="input" id="nombre" name="nombre" autocomplete="given-name" placeholder="Cómo te llamas" required maxlength="80">
+            <p class="msg">Escribe tu nombre.</p>
+          </div>
+          <div class="campo" data-campo="email">
+            <label for="email">Tu correo</label>
+            <input class="input" id="email" name="email" type="email" inputmode="email" autocomplete="email" autocapitalize="off" placeholder="tu@correo.com" required maxlength="120">
+            <p class="msg">Revisa tu correo, parece que falta algo.</p>
+          </div>
+          <div class="campo" data-campo="whatsapp">
+            <label for="tel">Tu WhatsApp</label>
+            <div class="tel">
+              <select class="input" id="pais" aria-label="Código de país"></select>
+              <input class="input" id="tel" type="tel" inputmode="tel" autocomplete="tel-national" placeholder="Número" required maxlength="20">
+            </div>
+            <p class="msg">Pon tu número para meterte al grupo.</p>
+          </div>
+          <div class="campo">
+            <span class="lbl">¿Qué te frena más? <span class="opc">(opcional)</span></span>
+            <div class="frenos" role="radiogroup">
+              <input type="radio" name="freno" id="f1" value="Me trabo"><label for="f1">Me trabo</label>
+              <input type="radio" name="freno" id="f2" value="No sé qué decir"><label for="f2">No sé qué decir</label>
+              <input type="radio" name="freno" id="f3" value="Me veo raro"><label for="f3">Me veo raro</label>
+              <input type="radio" name="freno" id="f4" value="Grabo mil tomas"><label for="f4">Grabo mil tomas</label>
+              <input type="radio" name="freno" id="f5" value="Me da vergüenza"><label for="f5">Me da vergüenza</label>
+            </div>
+          </div>
+
+          <button class="btn" type="submit" id="enviar" style="margin-top:8px">Quiero mi clase gratis
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg></button>
+          <p class="legal">Sin spam. Te sales cuando quieras.</p>
+          <p class="campo error" id="error-envio" hidden><span class="msg">No pudimos enviarlo. Revisa tu conexión y vuelve a intentarlo.</span></p>
+        </form>
+
+        <div class="exito" id="exito" aria-live="polite">
+          <div class="check"><svg viewBox="0 0 40 40"><path d="M10 21l7 7 14-15"/></svg></div>
+          <p class="etiqueta">Ya estás dentro</p>
+          <h2 id="exito-titulo">Tu clase <span class="rojo">gratis</span></h2>
+          <div id="exito-clase"></div>
+          <div class="paso">
+            <b>2</b>
+            <div style="flex:1">
+              <p><strong>Entra al grupo de WhatsApp</strong>Ahí va todo el contenido gratis y los avisos del reto.</p>
+              <div id="exito-wa"></div>
+            </div>
+          </div>
+          <p class="aviso-mail" id="aviso-mail">También te lo mandamos a <b id="exito-email"></b>. Si no lo ves, revisa Promociones o Spam.</p>
+        </div>
+        <div class="burbujas" id="burbujas" aria-hidden="true"></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- TE SUENA -->
+  <section class="seccion">
+    <div class="col">
+      <span class="burbuja rv">¿Qué te frena?</span>
+      <h2 class="h2 rv">Si alguna vez dijiste esto, <span class="rojo">es para ti</span></h2>
+      <div class="frases">
+        <div class="frase rv"><q>Eh… bueno…<span class="tachon"></span></q><p>Arrancas con relleno porque no sabes cómo empezar.</p></div>
+        <div class="frase rv"><q>Espera, empiezo otra vez<span class="tachon"></span></q><p>Grabas veinte tomas y ninguna te convence.</p></div>
+        <div class="frase rv"><q>Mejor lo grabo mañana<span class="tachon"></span></q><p>Esperas a sentirte listo. Ese día no llega.</p></div>
+        <div class="frase rv"><q>Así no lo subo<span class="tachon"></span></q><p>Te ves en la pantalla y lo borras.</p></div>
+      </div>
+      <p class="remate rv">No te falta talento. Te falta <span class="rojo">práctica</span>.</p>
+    </div>
+  </section>
+
+  <!-- QUÉ TE LLEVAS -->
+  <section class="seccion">
+    <div class="col">
+      <p class="etiqueta rv">Gratis, hoy</p>
+      <h2 class="h2 rv" style="margin-top:10px">Lo que te llevas al <span class="rojo">apuntarte</span></h2>
+      <div class="items">
+        <div class="item rv"><span class="n">01</span><div><h3>La primera clase</h3><p>En video, para que grabes hoy mismo tu primer clip sin cortes.</p></div></div>
+        <div class="item rv"><span class="n">02</span><div><h3>El grupo de WhatsApp</h3><p>Ejercicios, clases y consejos. Gratis, sin letra pequeña.</p></div></div>
+        <div class="item rv"><span class="n">03</span><div><h3>Primero en la fila</h3><p>Cuando abra el reto de 30 días, la lista se entera antes que nadie.</p></div></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 30 DÍAS -->
+  <section class="reto" id="reto">
+    <div class="col">
+      <p class="etiqueta">Así será el reto</p>
+      <h2 class="h2" style="margin:10px 0 12px">Un video al día. <span style="color:#FF4A50">30</span> días.</h2>
+      <p class="sub">Sin editar y sin repetir la toma. Cada día una habilidad nueva, y al final te comparas con tu primer video.</p>
+      <div class="contador"><span class="dia" id="dia">1</span><span class="de">/ 30 días</span></div>
+      <div class="grid30" id="grid30"></div>
+      <div class="semanas">
+        <div class="semana rv"><b>DÍAS 1–7</b><div><h3>Te atreves</h3><p>Grabas tu punto de partida y aprendes a mirarte sin juzgarte.</p></div></div>
+        <div class="semana rv"><b>DÍAS 8–14</b><div><h3>Ordenas tus ideas</h3><p>Una estructura simple para empezar, desarrollar y terminar.</p></div></div>
+        <div class="semana rv"><b>DÍAS 15–21</b><div><h3>Cuentas historias</h3><p>Lo que pasa en tu día convertido en algo que se quiere escuchar.</p></div></div>
+        <div class="semana rv"><b>DÍAS 22–30</b><div><h3>Te sueltas</h3><p>Pausas, energía y cómo seguir aunque te trabes.</p></div></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="manifiesto">
+    <div class="col"><p id="manifiesto">No tiene que salir perfecto. Tiene que salir.</p></div>
+  </section>
+
+  <!-- FAQ -->
+  <section class="seccion">
+    <div class="col">
+      <p class="etiqueta rv">Preguntas</p>
+      <h2 class="h2 rv" style="margin-top:10px">Lo que nos <span class="rojo">preguntan</span></h2>
+      <div class="faq rv">
+        <details><summary>¿La clase de verdad es gratis?<i></i></summary><div class="resp"><p>Sí. La clase y el grupo de WhatsApp son gratis. No te pedimos tarjeta.</p></div></details>
+        <details><summary>¿Cuándo empieza el reto?<i></i></summary><div class="resp"><p>Pronto. Los de la lista de espera se enteran primero de la fecha y de las condiciones.</p></div></details>
+        <details><summary>¿Qué necesito?<i></i></summary><div class="resp"><p>Tu teléfono y unos minutos al día. Nada de equipo caro ni programas de edición.</p></div></details>
+        <details><summary>¿Tengo que publicar mis videos?<i></i></summary><div class="resp"><p>No. Puedes practicar sin publicar nada. Publicar es opcional, cuando tú quieras.</p></div></details>
+        <details><summary>¿Y si nunca he hablado a cámara?<i></i></summary><div class="resp"><p>Mejor. El reto empieza justo ahí: con tu primer video, tal como salga.</p></div></details>
+      </div>
+
+      <div class="cierre rv">
+        <img src="assets/marca.svg" alt="">
+        <h2 class="h2">Tu primer video empieza <span class="rojo">hoy</span></h2>
+        <p class="sub">Apúntate y recibe la clase gratis en tu correo.</p>
+        <a class="btn" href="#apuntate" data-cta>Quiero soltarme
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer>
+  <div class="col">
+    <div class="grad"></div>
+    <p>Suelta la lengua · reto de 30 días</p>
+    <p style="margin-top:6px"><a href="mailto:Sueltalalenguachallenge@gmail.com">Sueltalalenguachallenge@gmail.com</a></p>
+  </div>
+</footer>
+
+<div class="fija" id="fija"><a class="btn" href="#apuntate" data-cta>Quiero mi clase gratis
+  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a></div>
+
+<script>document.documentElement.classList.add('js')</script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+<script>
+/* ─────────────────────────────────────────────
+   CONFIG — URL del Web App de Apps Script
+   (vacía = modo demo: el formulario simula el envío)
+   ───────────────────────────────────────────── */
+const API_URL = '';
+
+const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
+const hayGsap = typeof gsap !== 'undefined';
+if (!hayGsap) document.documentElement.classList.remove('js');
+
+/* ── Visor: onda de voz + subtítulos tipo reel ── */
+const onda = document.getElementById('onda');
+const N = 28;
+for (let i = 0; i < N; i++) onda.appendChild(document.createElement('span'));
+const barras = [...onda.children];
+
+const FRASES = [
+  ['Hoy', 'aprendí', 'algo', 'que', 'me', '*cambió', 'el', 'día.'],
+  ['No', 'tiene', 'que', 'salir', '*perfecto.'],
+  ['La', 'toma', 'buena', 'es', 'la', '*primera.'],
+  ['Si', 'te', 'trabas,', '*sigue.'],
+];
+const sub = document.getElementById('subtitulo');
+const reloj = document.getElementById('reloj');
+const prog = document.getElementById('progreso');
+let fi = 0, wi = 0, palabras = [], hablando = 0;
+
+function pintarFrase() {
+  sub.innerHTML = '';
+  palabras = FRASES[fi].map(w => {
+    const s = document.createElement('span');
+    s.textContent = w.replace('*', '');
+    if (w[0] === '*') s.className = 'clave';
+    sub.appendChild(s);
+    return s;
+  });
+  wi = 0;
+}
+function tickPalabra() {
+  if (wi < palabras.length) { palabras[wi].classList.add('on'); wi++; hablando = 1; setTimeout(tickPalabra, 260 + Math.random() * 160); }
+  else { hablando = 0; setTimeout(() => { fi = (fi + 1) % FRASES.length; pintarFrase(); tickPalabra(); }, 1300); }
+}
+pintarFrase();
+if (!reduce) setTimeout(tickPalabra, 900); else palabras.forEach(p => p.classList.add('on'));
+
+const t0 = performance.now();
+let nivel = 0;
+function animarVisor(t) {
+  const seg = ((t - t0) / 1000) % 30;
+  reloj.textContent = '00:' + String(Math.floor(seg)).padStart(2, '0');
+  prog.style.width = (seg / 30 * 100) + '%';
+  nivel += ((hablando ? 1 : .12) - nivel) * .08;
+  barras.forEach((b, i) => {
+    const centro = 1 - Math.abs(i - N / 2) / (N / 2);
+    const v = .14 + nivel * centro * (.45 + .55 * Math.abs(Math.sin(t / 140 + i * .9) * Math.cos(t / 330 + i * 1.7)));
+    b.style.transform = 'scaleY(' + (v * 5).toFixed(3) + ')';
+  });
+  requestAnimationFrame(animarVisor);
+}
+if (!reduce) requestAnimationFrame(animarVisor);
+
+/* ── 30 días ── */
+const grid = document.getElementById('grid30');
+for (let i = 1; i <= 30; i++) { const s = document.createElement('span'); s.textContent = i; if (i === 30) s.classList.add('fin'); grid.appendChild(s); }
+const celdas = [...grid.children], diaEl = document.getElementById('dia');
+function marcarDias(n) {
+  celdas.forEach((c, i) => c.classList.toggle('on', i < n));
+  diaEl.textContent = Math.max(1, n);
+}
+
+/* ── Manifiesto palabra por palabra ── */
+const man = document.getElementById('manifiesto');
+const manPal = man.textContent.trim().split(' ');
+man.innerHTML = manPal.map(w => '<span class="w">' + w + '</span>').join(' ');
+const manWs = [...man.querySelectorAll('.w')];
+manWs[manWs.length - 1].classList.add('clave');
+
+/* ── Motion ── */
+if (hayGsap && !reduce) {
+  gsap.registerPlugin(ScrollTrigger);
+  const tl = gsap.timeline({ defaults: { ease: 'expo.out' } });
+  tl.from('.top img', { y: -20, opacity: 0, rotate: -12, duration: 1 })
+    .from('.vivo', { y: -20, opacity: 0, duration: .8 }, '<.1')
+    .from('.hero .etiqueta', { y: 16, opacity: 0, duration: .8 }, '<.1')
+    .from('.hero h1 .linea>span', { yPercent: 110, duration: 1.1, stagger: .11 }, '<.05')
+    .from('.subrayado path', { strokeDasharray: 220, strokeDashoffset: 220, duration: .9, ease: 'power3.inOut' }, '-=.4')
+    .from('.hero .sub', { y: 20, opacity: 0, duration: .9 }, '-=.8')
+    .from('.visor', { y: 50, opacity: 0, scale: .94, rotate: -2, duration: 1.3 }, '-=.7')
+    .from('.visor .esq', { scale: 1.6, opacity: 0, duration: .8, stagger: .06 }, '-=.9')
+    .from('.hero .btn, .chips-hero', { y: 20, opacity: 0, duration: .8, stagger: .08 }, '-=.9');
+
+  // El visor se inclina y respira al hacer scroll
+  gsap.to('.visor', { yPercent: -6, rotate: 1.5, ease: 'none',
+    scrollTrigger: { trigger: '.visor', start: 'top 60%', end: 'bottom top', scrub: true } });
+  gsap.fromTo('.cinta .pista', { x: 0 }, { x: -120, ease: 'none',
+    scrollTrigger: { trigger: '.cinta', start: 'top bottom', end: 'bottom top', scrub: true } });
+
+  // Reveals
+  gsap.utils.toArray('.rv').forEach(el => {
+    gsap.to(el, { opacity: 1, y: 0, duration: 1, ease: 'expo.out',
+      scrollTrigger: { trigger: el, start: 'top 88%' } });
+  });
+  gsap.from('.burbuja', { scale: .4, rotate: -30, duration: 1.1, ease: 'elastic.out(1,.55)',
+    scrollTrigger: { trigger: '.burbuja', start: 'top 88%' } });
+
+  // Tachones de las frases
+  gsap.utils.toArray('.frase').forEach(f => {
+    const tl2 = gsap.timeline({ scrollTrigger: { trigger: f, start: 'top 72%' } });
+    tl2.to(f.querySelector('.tachon'), { scaleX: 1, duration: .55, ease: 'power3.inOut', delay: .25 })
+       .to(f.querySelector('q'), { color: '#9A9AA6', duration: .4 }, '<.2');
+  });
+
+  // Números 01 02 03
+  gsap.utils.toArray('.item .n').forEach(n => {
+    gsap.from(n, { yPercent: 60, opacity: 0, duration: 1, ease: 'expo.out', scrollTrigger: { trigger: n, start: 'top 90%' } });
+  });
+
+  // 30 días se llenan con el scroll
+  const estado = { d: 0 };
+  gsap.to(estado, { d: 30, ease: 'none', onUpdate: () => marcarDias(Math.round(estado.d)),
+    scrollTrigger: { trigger: '#grid30', start: 'top 82%', end: 'bottom 38%', scrub: .6 } });
+  gsap.from('#grid30 span', { scale: .5, opacity: 0, duration: .6, ease: 'back.out(2)', stagger: { each: .015, from: 'start' },
+    scrollTrigger: { trigger: '#grid30', start: 'top 92%' } });
+
+  // Manifiesto palabra por palabra
+  ScrollTrigger.create({ trigger: '#manifiesto', start: 'top 80%', end: 'bottom 45%', scrub: true,
+    onUpdate: s => { const k = Math.round(s.progress * manWs.length); manWs.forEach((w, i) => w.classList.toggle('on', i < k)); } });
+
+  gsap.from('.cierre img', { y: 30, rotate: -25, scale: .6, opacity: 0, duration: 1.2, ease: 'elastic.out(1,.6)',
+    scrollTrigger: { trigger: '.cierre', start: 'top 80%' } });
+} else {
+  marcarDias(30);
+  manWs.forEach(w => w.classList.add('on'));
+  document.querySelectorAll('.tachon').forEach(t => t.style.transform = 'scaleX(1)');
+}
+
+/* ── Barra superior y CTA fija ── */
+const top_ = document.getElementById('top'), fija = document.getElementById('fija');
+const formCard = document.getElementById('apuntate');
+let formVisible = false, heroBtnVisible = true, enviado = false;
+new IntersectionObserver(([e]) => { formVisible = e.isIntersecting; actualizarFija(); }, { threshold: .15 }).observe(formCard);
+// La CTA fija solo aparece cuando el botón del hero ya quedó ARRIBA (pasado), no antes.
+new IntersectionObserver(([e]) => { heroBtnVisible = e.isIntersecting || e.boundingClientRect.top > 0; actualizarFija(); }).observe(document.querySelector('.hero .btn'));
+function actualizarFija() { fija.classList.toggle('ver', !formVisible && !heroBtnVisible && !enviado); }
+addEventListener('scroll', () => top_.classList.toggle('scrolled', scrollY > 8), { passive: true });
+
+// Al tocar un CTA, el formulario se enfoca solo
+document.querySelectorAll('[data-cta]').forEach(a => a.addEventListener('click', e => {
+  e.preventDefault();
+  formCard.scrollIntoView({ behavior: reduce ? 'auto' : 'smooth', block: 'start' });
+  if (!enviado) setTimeout(() => document.getElementById('nombre').focus({ preventScroll: true }), 650);
+}));
+
+/* ── Código de país según la zona horaria ── */
+const PAISES = [
+  ['+52','🇲🇽 +52','Mexico|Cancun|Merida|Monterrey|Matamoros|Chihuahua|Mazatlan|Hermosillo|Tijuana|Ojinaga|Bahia_Banderas'],
+  ['+57','🇨🇴 +57','Bogota'], ['+58','🇻🇪 +58','Caracas'], ['+54','🇦🇷 +54','Argentina|Buenos_Aires'],
+  ['+56','🇨🇱 +56','Santiago|Punta_Arenas'], ['+51','🇵🇪 +51','Lima'], ['+593','🇪🇨 +593','Guayaquil|Galapagos'],
+  ['+591','🇧🇴 +591','La_Paz'], ['+595','🇵🇾 +595','Asuncion'], ['+598','🇺🇾 +598','Montevideo'],
+  ['+506','🇨🇷 +506','Costa_Rica'], ['+507','🇵🇦 +507','Panama'], ['+503','🇸🇻 +503','El_Salvador'],
+  ['+502','🇬🇹 +502','Guatemala'], ['+504','🇭🇳 +504','Tegucigalpa'], ['+505','🇳🇮 +505','Managua'],
+  ['+1','🇩🇴 +1 RD','Santo_Domingo'], ['+1','🇵🇷 +1 PR','Puerto_Rico'], ['+53','🇨🇺 +53','Havana'],
+  ['+1','🇺🇸 +1','New_York|Chicago|Denver|Los_Angeles|Phoenix|Anchorage|Detroit|Indiana|Kentucky|Boise|Honolulu'],
+  ['+34','🇪🇸 +34','Madrid|Canary|Ceuta'],
+];
+const selPais = document.getElementById('pais');
+const tz = (Intl.DateTimeFormat().resolvedOptions().timeZone || '');
+let elegido = PAISES.findIndex(p => new RegExp(p[2]).test(tz));
+PAISES.forEach((p, i) => selPais.add(new Option(p[1], i)));
+selPais.add(new Option('Otro', 'otro'));
+selPais.value = elegido >= 0 ? elegido : 0;
+
+/* ── Formulario ── */
+const form = document.getElementById('form');
+const btn = document.getElementById('enviar');
+const btnHTML = btn.innerHTML;
+const params = new URLSearchParams(location.search);
+const origen = [params.get('utm_source'), params.get('utm_medium'), params.get('utm_campaign')].filter(Boolean).join(' / ') || document.referrer.replace(/^https?:\/\//, '').split('/')[0] || 'directo';
+
+function marcarError(nombre, malo) { form.querySelector('[data-campo="' + nombre + '"]').classList.toggle('error', malo); return malo; }
+form.querySelectorAll('.input').forEach(i => i.addEventListener('input', () => i.closest('.campo').classList.remove('error')));
+
+form.addEventListener('submit', async e => {
+  e.preventDefault();
+  const nombre = form.nombre.value.trim();
+  const email = form.email.value.trim();
+  const tel = document.getElementById('tel').value.replace(/[^\d]/g, '');
+  const errores = [
+    marcarError('nombre', nombre.length < 2),
+    marcarError('email', !/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(email)),
+    marcarError('whatsapp', tel.length < 6),
+  ];
+  if (errores.some(Boolean)) { form.querySelector('.campo.error .input').focus(); return; }
+
+  const pais = selPais.value === 'otro' ? '' : PAISES[selPais.value][0] + ' ';
+  const datos = { nombre, email, whatsapp: pais + tel, freno: (form.freno.value || ''), origen };
+
+  btn.disabled = true;
+  btn.innerHTML = '<span class="spinner"></span>Enviando…';
+  document.getElementById('error-envio').hidden = true;
+
+  try {
+    const r = await enviar(datos);
+    mostrarExito(nombre, email, r);
+  } catch (err) {
+    console.error(err);
+    document.getElementById('error-envio').hidden = false;
+    btn.disabled = false; btn.innerHTML = btnHTML;
+  }
+});
+
+// Reintenta solo: con miles de personas a la vez, Apps Script a veces responde tarde.
+async function enviar(datos, intento = 1) {
+  if (!API_URL) { await new Promise(r => setTimeout(r, 900)); return { ok: true, demo: true }; }
+  try {
+    const res = await fetch(API_URL, { method: 'POST', headers: { 'Content-Type': 'text/plain;charset=utf-8' }, body: JSON.stringify(datos) });
+    const j = await res.json();
+    if (!j.ok) throw new Error(j.error || 'error');
+    return j;
+  } catch (err) {
+    if (intento >= 3) throw err;
+    await new Promise(r => setTimeout(r, 900 * intento));
+    return enviar(datos, intento + 1);
+  }
+}
+
+function urlEmbed(u) {
+  if (!u) return '';
+  let m = u.match(/(?:youtu\.be\/|youtube\.com\/(?:watch\?v=|shorts\/|embed\/|live\/))([\w-]{11})/);
+  if (m) return 'https://www.youtube-nocookie.com/embed/' + m[1] + '?rel=0&modestbranding=1&playsinline=1';
+  m = u.match(/vimeo\.com\/(?:video\/)?(\d+)/);
+  if (m) return 'https://player.vimeo.com/video/' + m[1] + '?title=0&byline=0&portrait=0';
+  m = u.match(/drive\.google\.com\/file\/d\/([\w-]+)/);
+  if (m) return 'https://drive.google.com/file/d/' + m[1] + '/preview';
+  return '';
+}
+const flecha = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg>';
+const iconoWa = '<svg viewBox="0 0 24 24" fill="currentColor"><path d="M17.5 14.4c-.3-.1-1.8-.9-2-1-.3-.1-.5-.1-.7.1-.2.3-.8 1-.9 1.2-.2.2-.3.2-.6.1-.3-.1-1.3-.5-2.4-1.5-.9-.8-1.5-1.8-1.7-2.1-.2-.3 0-.5.1-.6l.4-.5.3-.5c.1-.2 0-.4 0-.5l-.9-2.2c-.2-.6-.5-.5-.7-.5h-.6c-.2 0-.5.1-.8.4-.3.3-1 1-1 2.5s1.1 2.9 1.2 3.1c.1.2 2.1 3.2 5.1 4.5.7.3 1.3.5 1.7.6.7.2 1.4.2 1.9.1.6-.1 1.8-.7 2-1.4.3-.7.3-1.3.2-1.4-.1-.1-.3-.2-.6-.3zM12 21.8c-1.8 0-3.5-.5-5-1.4l-.4-.2-3.7 1 1-3.6-.2-.4c-1-1.6-1.5-3.4-1.5-5.2C2.2 6.6 6.6 2.2 12 2.2c2.6 0 5.1 1 6.9 2.9 1.8 1.8 2.9 4.3 2.9 6.9 0 5.4-4.4 9.8-9.8 9.8zm8.4-18.2C18.1 1.3 15.2 0 12 0 5.5 0 .1 5.3.1 11.9c0 2.1.5 4.1 1.6 5.9L0 24l6.3-1.7c1.7.9 3.7 1.4 5.7 1.4 6.6 0 11.9-5.3 11.9-11.9 0-3.2-1.2-6.2-3.5-8.4z"/></svg>';
+
+function mostrarExito(nombre, email, r) {
+  enviado = true; actualizarFija();
+  const primer = nombre.split(' ')[0];
+  document.getElementById('exito-titulo').innerHTML = primer.replace(/[<>&]/g, '') + ', tu clase <span class="rojo">gratis</span>';
+  document.getElementById('exito-email').textContent = email;
+
+  const emb = urlEmbed(r.clase);
+  const clase = document.getElementById('exito-clase');
+  if (emb) clase.innerHTML = '<div class="video"><iframe src="' + emb + '" title="Clase gratis" allow="autoplay; fullscreen; picture-in-picture" allowfullscreen></iframe></div>';
+  else if (r.clase) clase.innerHTML = '<a class="btn" style="margin:20px 0 6px" href="' + r.clase + '" target="_blank" rel="noopener">Ver la clase gratis' + flecha + '</a>';
+  else clase.innerHTML = '<p class="sub" style="font-size:15px;margin:12px 0 4px">La clase está en camino a tu correo.</p>';
+
+  document.getElementById('exito-wa').innerHTML = r.whatsapp
+    ? '<a class="btn" href="' + r.whatsapp + '" target="_blank" rel="noopener">' + iconoWa + 'Entrar al grupo</a>'
+    : '<p style="margin-top:6px;font-size:14px">El link del grupo llega en tu correo.</p>';
+
+  formCard.classList.add('listo');
+  formCard.scrollIntoView({ behavior: reduce ? 'auto' : 'smooth', block: 'start' });
+  if (hayGsap && !reduce) {
+    gsap.from('.exito > *', { y: 24, opacity: 0, duration: .9, ease: 'expo.out', stagger: .07 });
+    celebrar();
+  }
+}
+
+// Mini explosión de burbujas con el degradado de marca
+function celebrar() {
+  const caja = document.getElementById('burbujas');
+  const w = caja.clientWidth;
+  for (let i = 0; i < 26; i++) {
+    const b = document.createElement('i');
+    caja.appendChild(b);
+    gsap.set(b, { left: w / 2, top: 70, scale: .4 + Math.random() * .9, rotate: -10 });
+    gsap.to(b, {
+      x: (Math.random() - .5) * w * 1.1, y: -30 + Math.random() * 260,
+      rotate: (Math.random() - .5) * 140, opacity: 0,
+      duration: 1.3 + Math.random() * .8, ease: 'expo.out', onComplete: () => b.remove(),
+    });
+  }
+}
+</script>
+</body>
+</html>
