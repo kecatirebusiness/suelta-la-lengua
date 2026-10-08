@@ -1,0 +1,423 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="robots" content="noindex, nofollow">
+<title>CRM · Suelta la lengua</title>
+<link rel="icon" href="../assets/marca.svg" type="image/svg+xml">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Lexend:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+:root{
+  --rojo:#D9161D; --rojo-h:#B91217; --rojo-suave:#FDECEC; --azul:#3B4BA8;
+  --tinta:#16161D; --tinta-suave:#5E5E6B; --muda:#9A9AA6; --linea:#E4E4EA; --fondo:#FAFAF8; --blanco:#fff;
+  --verde:#1F8A4C; --verde-suave:#E7F5EC; --ambar:#B26A00; --ambar-suave:#FFF3DF;
+  --grad:linear-gradient(90deg,#3B4BA8 0%,#E81E25 55%,#D6007A 100%);
+  --r-input:8px; --r-card:20px; --ease:cubic-bezier(.22,1,.36,1);
+}
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:Lexend,system-ui,sans-serif;background:var(--fondo);color:var(--tinta);font-size:15px;line-height:1.45;-webkit-font-smoothing:antialiased}
+button,input,select,textarea{font:inherit;color:inherit}
+a{color:inherit}
+[hidden]{display:none!important}
+.wrap{max-width:1100px;margin:0 auto;padding:0 16px}
+.etiqueta{font-size:11px;font-weight:600;letter-spacing:.12em;text-transform:uppercase;color:var(--tinta-suave)}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;min-height:44px;padding:0 18px;border:0;border-radius:999px;
+  background:var(--rojo);color:#fff;font-weight:600;cursor:pointer;text-decoration:none;transition:background .2s,transform .2s var(--ease)}
+.btn:hover{background:var(--rojo-h)} .btn:active{transform:scale(.97)}
+.btn.sec{background:#fff;color:var(--tinta);border:1.5px solid var(--linea)} .btn.sec:hover{background:var(--fondo)}
+.btn svg{width:18px;height:18px}
+.input,select,textarea{width:100%;min-height:44px;padding:0 12px;border:1.5px solid var(--linea);border-radius:var(--r-input);background:#fff;font-size:16px;outline:none}
+.input:focus,select:focus,textarea:focus{border-color:var(--tinta)}
+select{padding-right:30px;-webkit-appearance:none;appearance:none;
+  background:#fff url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' fill='none' stroke='%2316161D' stroke-width='2'%3E%3Cpath d='M1 1.5l5 5 5-5'/%3E%3C/svg%3E") no-repeat right 10px center}
+
+/* ── Login ── */
+.login{min-height:100svh;display:grid;place-items:center;padding:24px 16px}
+.login-card{width:100%;max-width:380px;background:#fff;border:1px solid var(--linea);border-radius:28px;padding:32px 24px;position:relative;overflow:hidden}
+.login-card::before{content:"";position:absolute;inset:0 0 auto;height:5px;background:var(--grad)}
+.login-card img{height:36px;margin-bottom:24px}
+.login-card h1{font-size:24px;font-weight:600;letter-spacing:-.02em;margin:6px 0 20px}
+.login-card .btn{width:100%;margin-top:12px}
+.err{margin-top:12px;font-size:14px;color:var(--rojo);min-height:20px}
+
+/* ── App ── */
+.top{position:sticky;top:0;z-index:20;background:rgba(250,250,248,.9);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);border-bottom:1px solid var(--linea)}
+.top .wrap{display:flex;align-items:center;gap:12px;height:60px}
+.top img{height:30px}
+.top .tit{font-weight:600;font-size:15px;margin-right:auto}
+.top .tit span{color:var(--tinta-suave);font-weight:400;font-size:13px;display:block;line-height:1.1}
+.ico{width:40px;height:40px;border-radius:50%;border:1.5px solid var(--linea);background:#fff;display:grid;place-items:center;cursor:pointer}
+.ico svg{width:18px;height:18px}
+.ico.gira svg{animation:gira .8s linear infinite}
+@keyframes gira{to{transform:rotate(360deg)}}
+
+section{margin-top:20px}
+.kpis{display:grid;grid-template-columns:repeat(2,1fr);gap:10px}
+.kpi{background:#fff;border:1px solid var(--linea);border-radius:var(--r-card);padding:16px}
+.kpi b{display:block;font-size:30px;line-height:1.1;font-weight:600;letter-spacing:-.03em;margin-top:6px;font-variant-numeric:tabular-nums}
+.kpi small{color:var(--tinta-suave);font-size:12px}
+
+.graficas{display:grid;gap:10px}
+.card{background:#fff;border:1px solid var(--linea);border-radius:var(--r-card);padding:16px}
+.card h2{font-size:15px;font-weight:600;margin-bottom:2px}
+.card .nota{font-size:12px;color:var(--tinta-suave);margin-bottom:12px}
+.barras{position:relative;height:140px}
+.barras svg{width:100%;height:100%;overflow:visible}
+.barras .eje{font-size:10px;fill:var(--muda)}
+.barras .b{transition:opacity .15s}
+.barras rect.hit{fill:transparent;cursor:default}
+.barras:hover .b{opacity:.45} .barras .b.on{opacity:1}
+.tip{position:absolute;pointer-events:none;background:var(--tinta);color:#fff;font-size:12px;padding:6px 9px;border-radius:8px;white-space:nowrap;transform:translate(-50%,-110%);opacity:0;transition:opacity .12s}
+.tip.ver{opacity:1}
+.hbars{display:grid;gap:8px}
+.hbar{display:grid;grid-template-columns:minmax(90px,38%) 1fr auto;gap:10px;align-items:center;font-size:13px}
+.hbar .lab{white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.hbar .pista{height:10px;border-radius:0 4px 4px 0;background:transparent}
+.hbar .val{height:100%;border-radius:0 4px 4px 0;background:var(--tinta);min-width:2px}
+.hbar .n{font-variant-numeric:tabular-nums;color:var(--tinta-suave);font-size:12px;min-width:44px;text-align:right}
+
+.filtros{display:grid;gap:8px}
+.chips{display:flex;gap:6px;overflow-x:auto;padding-bottom:4px;scrollbar-width:none}
+.chips::-webkit-scrollbar{display:none}
+.chip{flex:none;display:inline-flex;align-items:center;gap:6px;min-height:36px;padding:0 14px;border:1.5px solid var(--linea);border-radius:999px;background:#fff;font-size:13px;font-weight:500;cursor:pointer;white-space:nowrap}
+.chip b{font-weight:600;font-variant-numeric:tabular-nums;color:var(--tinta-suave)}
+.chip.on{background:var(--tinta);border-color:var(--tinta);color:#fff} .chip.on b{color:#fff}
+.fila-filtros{display:grid;grid-template-columns:1fr;gap:8px}
+
+.lista{display:grid;gap:10px;margin-top:10px}
+.lead{background:#fff;border:1px solid var(--linea);border-radius:var(--r-card);padding:16px;display:grid;gap:10px}
+.lead .cab{display:flex;justify-content:space-between;gap:10px;align-items:flex-start}
+.lead h3{font-size:16px;font-weight:600;line-height:1.3;word-break:break-word}
+.lead .cuando{font-size:12px;color:var(--tinta-suave);white-space:nowrap}
+.lead .datos{display:flex;flex-wrap:wrap;gap:6px 14px;font-size:13px;color:var(--tinta-suave)}
+.lead .datos a{color:var(--tinta);text-decoration:none;border-bottom:1px solid var(--linea);word-break:break-all}
+.tags{display:flex;flex-wrap:wrap;gap:6px}
+.tag{font-size:12px;padding:3px 10px;border-radius:999px;background:var(--fondo);border:1px solid var(--linea);color:var(--tinta-suave)}
+.tag.freno{background:var(--rojo-suave);border-color:transparent;color:var(--tinta)}
+.tag.pend{background:var(--ambar-suave);border-color:transparent;color:var(--ambar)}
+.acciones{display:grid;grid-template-columns:1fr auto;gap:8px;align-items:center}
+.wa{min-height:44px;padding:0 14px;border-radius:999px;background:var(--verde);color:#fff;display:inline-flex;align-items:center;gap:6px;font-weight:600;font-size:14px;text-decoration:none}
+.wa svg{width:18px;height:18px}
+.lead textarea{min-height:44px;padding:10px 12px;resize:vertical;font-size:14px}
+.guardado{font-size:12px;color:var(--verde);height:16px;opacity:0;transition:opacity .3s}
+.guardado.ver{opacity:1} .guardado.error{color:var(--rojo)}
+.vacio{padding:40px 16px;text-align:center;color:var(--tinta-suave)}
+.mas{width:100%;margin:12px 0 0}
+.pie{padding:28px 0 40px;font-size:12px;color:var(--muda);text-align:center}
+.cargando{padding:60px 0;text-align:center;color:var(--tinta-suave)}
+
+@media (min-width:720px){
+  .kpis{grid-template-columns:repeat(4,1fr)}
+  .graficas{grid-template-columns:1.4fr 1fr 1fr}
+  .fila-filtros{grid-template-columns:1fr 200px auto}
+  .lead{grid-template-columns:1.3fr 1fr 1.2fr;align-items:start}
+}
+</style>
+</head>
+<body>
+
+<!-- LOGIN -->
+<main class="login" id="vista-login">
+  <form class="login-card" id="form-login">
+    <img src="../assets/logo.svg" alt="Suelta la lengua">
+    <p class="etiqueta">Acceso privado</p>
+    <h1>CRM de la lista de espera</h1>
+    <label class="etiqueta" for="clave" style="display:block;margin-bottom:8px">Contraseña</label>
+    <input class="input" type="password" id="clave" autocomplete="current-password" required>
+    <button class="btn" type="submit" id="btn-login">Entrar</button>
+    <p class="err" id="err-login" role="alert"></p>
+  </form>
+</main>
+
+<!-- APP -->
+<div id="vista-app" hidden>
+  <header class="top">
+    <div class="wrap">
+      <img src="../assets/marca.svg" alt="">
+      <p class="tit">CRM<span id="actualizado">—</span></p>
+      <button class="ico" id="btn-refrescar" title="Actualizar" aria-label="Actualizar">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12a9 9 0 1 1-2.6-6.4"/><path d="M21 4v5h-5"/></svg></button>
+      <button class="ico" id="btn-salir" title="Salir" aria-label="Salir">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 4h4a1 1 0 0 1 1 1v14a1 1 0 0 1-1 1h-4"/><path d="M10 17l-5-5 5-5M5 12h11"/></svg></button>
+    </div>
+  </header>
+
+  <div class="wrap">
+    <div class="cargando" id="cargando">Cargando leads…</div>
+    <div id="contenido" hidden>
+      <section class="kpis">
+        <div class="kpi"><span class="etiqueta">Total</span><b id="k-total">0</b><small>en la lista</small></div>
+        <div class="kpi"><span class="etiqueta">Hoy</span><b id="k-hoy">0</b><small id="k-ayer">ayer: 0</small></div>
+        <div class="kpi"><span class="etiqueta">Últimos 7 días</span><b id="k-7">0</b><small id="k-7prev">semana anterior: 0</small></div>
+        <div class="kpi"><span class="etiqueta">Emails en cola</span><b id="k-pend">0</b><small>se envían solos</small></div>
+      </section>
+
+      <section class="graficas">
+        <div class="card">
+          <h2>Registros por día</h2><p class="nota">Últimos 30 días</p>
+          <div class="barras" id="g-dias"><div class="tip" id="tip"></div></div>
+        </div>
+        <div class="card"><h2>¿Qué los frena?</h2><p class="nota">Respuesta del formulario</p><div class="hbars" id="g-frenos"></div></div>
+        <div class="card"><h2>De dónde vienen</h2><p class="nota">Según el link (utm)</p><div class="hbars" id="g-origen"></div></div>
+      </section>
+
+      <section class="filtros">
+        <div class="chips" id="chips-estado"></div>
+        <div class="fila-filtros">
+          <input class="input" type="search" id="buscar" placeholder="Buscar por nombre, email o WhatsApp">
+          <select id="f-freno" aria-label="Filtrar por freno"><option value="">Todos los frenos</option></select>
+          <button class="btn sec" id="btn-csv" type="button">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 4v11M7 10l5 5 5-5M5 20h14"/></svg>Exportar CSV</button>
+        </div>
+      </section>
+
+      <p class="etiqueta" style="margin-top:16px" id="conteo"></p>
+      <div class="lista" id="lista"></div>
+      <button class="btn sec mas" id="btn-mas" hidden>Ver más</button>
+      <p class="pie">Los cambios de estado y notas se guardan en la Google Sheet y los ve todo el equipo.</p>
+    </div>
+  </div>
+</div>
+
+<script>
+const API_URL = 'https://script.google.com/macros/s/AKfycbwsQG5r2cMDbbdgAusrqmR9CFMsNbWOibZjB9380ZQ3tzl5-DdQkd2HQLZYi9GwMQtg/exec';
+const POR_PAGINA = 60;
+
+const $ = id => document.getElementById(id);
+const esc = s => String(s == null ? '' : s).replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
+const guardar = (k, v) => { try { v == null ? sessionStorage.removeItem(k) : sessionStorage.setItem(k, v); } catch (e) {} };
+const leer = k => { try { return sessionStorage.getItem(k); } catch (e) { return null; } };
+
+let token = leer('crm_token');
+let leads = [], estados = ['Nuevo', 'Contactado', 'Interesado', 'Compró', 'No interesa'];
+let filtroEstado = '', mostrados = POR_PAGINA;
+
+async function api(cuerpo) {
+  const r = await fetch(API_URL, { method: 'POST', headers: { 'Content-Type': 'text/plain;charset=utf-8' }, body: JSON.stringify(cuerpo) });
+  return r.json();
+}
+
+/* ── Login ── */
+$('form-login').addEventListener('submit', async e => {
+  e.preventDefault();
+  const btn = $('btn-login');
+  btn.disabled = true; btn.textContent = 'Entrando…'; $('err-login').textContent = '';
+  try {
+    const r = await api({ accion: 'login', password: $('clave').value });
+    if (r.ok) { token = r.token; guardar('crm_token', token); $('clave').value = ''; entrar(); }
+    else $('err-login').textContent = r.error === 'bloqueado'
+      ? 'Demasiados intentos. Espera 15 minutos.' : 'Contraseña incorrecta.';
+  } catch (err) {
+    $('err-login').textContent = 'No se pudo conectar. Revisa tu internet.';
+  }
+  btn.disabled = false; btn.textContent = 'Entrar';
+});
+
+function salir(msg) {
+  token = null; guardar('crm_token', null); leads = [];
+  $('vista-app').hidden = true; $('vista-login').hidden = false;
+  $('err-login').textContent = msg || '';
+  $('clave').focus();
+}
+$('btn-salir').addEventListener('click', () => salir());
+
+function entrar() {
+  $('vista-login').hidden = true; $('vista-app').hidden = false;
+  cargar();
+}
+
+/* ── Datos ── */
+async function cargar(silencioso) {
+  const btn = $('btn-refrescar');
+  btn.classList.add('gira');
+  try {
+    const r = await api({ accion: 'leads', token });
+    if (!r.ok) { if (r.error === 'sesion') return salir('Tu sesión expiró. Vuelve a entrar.'); throw new Error(r.error); }
+    leads = r.leads.filter(l => l.email).sort((a, b) => b.fecha.localeCompare(a.fecha));
+    estados = r.estados || estados;
+    $('actualizado').textContent = 'Actualizado ' + new Date().toLocaleTimeString('es', { hour: '2-digit', minute: '2-digit' });
+    $('cargando').hidden = true; $('contenido').hidden = false;
+    pintarTodo(silencioso);
+  } catch (err) {
+    console.error(err);
+    if (!silencioso) $('cargando').textContent = 'No se pudieron cargar los leads. Toca ↻ para reintentar.';
+  } finally {
+    btn.classList.remove('gira');
+  }
+}
+$('btn-refrescar').addEventListener('click', () => cargar());
+// Se refresca solo cada minuto, salvo que estés escribiendo una nota.
+setInterval(() => { if (token && !$('vista-app').hidden && !document.activeElement.matches('textarea,input,select')) cargar(true); }, 60000);
+
+/* ── Pintar ── */
+const dia = d => { const x = new Date(d); return x.getFullYear() + '-' + String(x.getMonth() + 1).padStart(2, '0') + '-' + String(x.getDate()).padStart(2, '0'); };
+const hoyStr = () => dia(new Date());
+const haceDias = n => { const d = new Date(); d.setDate(d.getDate() - n); return dia(d); };
+
+function pintarTodo(silencioso) {
+  pintarKpis(); pintarDias(); pintarHbars('g-frenos', l => l.freno || 'Sin respuesta'); pintarHbars('g-origen', l => l.origen || 'directo', 6);
+  pintarChips(); pintarFrenosSelect();
+  if (!silencioso) mostrados = POR_PAGINA;
+  pintarLista();
+}
+
+function pintarKpis() {
+  const h = hoyStr(), a = haceDias(1), d7 = haceDias(6), d14 = haceDias(13);
+  const dias = leads.map(l => dia(l.fecha));
+  $('k-total').textContent = leads.length.toLocaleString('es');
+  $('k-hoy').textContent = dias.filter(d => d === h).length.toLocaleString('es');
+  $('k-ayer').textContent = 'ayer: ' + dias.filter(d => d === a).length.toLocaleString('es');
+  $('k-7').textContent = dias.filter(d => d >= d7).length.toLocaleString('es');
+  $('k-7prev').textContent = 'semana anterior: ' + dias.filter(d => d >= d14 && d < d7).length.toLocaleString('es');
+  $('k-pend').textContent = leads.filter(l => l.email_estado === 'pendiente').length.toLocaleString('es');
+}
+
+function pintarDias() {
+  const caja = $('g-dias'), tip = $('tip');
+  const conteo = {};
+  leads.forEach(l => { const d = dia(l.fecha); conteo[d] = (conteo[d] || 0) + 1; });
+  const serie = [];
+  for (let i = 29; i >= 0; i--) { const d = haceDias(i); serie.push({ d, n: conteo[d] || 0 }); }
+  const max = Math.max(1, ...serie.map(s => s.n));
+  const W = 300, H = 120, gap = 2, bw = W / serie.length - gap;
+  let svg = '<svg viewBox="0 0 ' + W + ' ' + (H + 16) + '" preserveAspectRatio="none" role="img" aria-label="Registros por día, últimos 30 días">';
+  svg += '<line x1="0" y1="' + H + '" x2="' + W + '" y2="' + H + '" stroke="#E4E4EA" stroke-width="1"/>';
+  serie.forEach((s, i) => {
+    const x = i * (bw + gap), h = s.n ? Math.max(3, s.n / max * (H - 8)) : 0;
+    // Barra con la punta redondeada arriba y la base recta sobre el eje
+    if (h) svg += '<path class="b" data-i="' + i + '" d="M' + x + ',' + H + 'V' + (H - h + 3) + 'Q' + x + ',' + (H - h) + ' ' + (x + 3) + ',' + (H - h) + 'H' + (x + bw - 3) + 'Q' + (x + bw) + ',' + (H - h) + ' ' + (x + bw) + ',' + (H - h + 3) + 'V' + H + 'Z" fill="#D9161D"/>';
+    svg += '<rect class="hit" data-i="' + i + '" x="' + (x - gap / 2) + '" y="0" width="' + (bw + gap) + '" height="' + H + '"/>';
+  });
+  svg += '<text class="eje" x="0" y="' + (H + 13) + '">' + fechaCorta(serie[0].d) + '</text>';
+  svg += '<text class="eje" x="' + W + '" y="' + (H + 13) + '" text-anchor="end">Hoy</text>';
+  svg += '<text class="eje" x="0" y="8">' + max + '</text></svg>';
+  caja.innerHTML = svg; caja.appendChild(tip);
+  caja.querySelectorAll('rect.hit').forEach(r => {
+    r.addEventListener('mouseenter', () => {
+      const s = serie[r.dataset.i], rc = r.getBoundingClientRect(), bc = caja.getBoundingClientRect();
+      tip.textContent = fechaCorta(s.d) + ' · ' + s.n + (s.n === 1 ? ' registro' : ' registros');
+      tip.style.left = (rc.left - bc.left + rc.width / 2) + 'px'; tip.style.top = '24px'; tip.classList.add('ver');
+      caja.querySelectorAll('.b').forEach(b => b.classList.toggle('on', b.dataset.i === r.dataset.i));
+    });
+    r.addEventListener('mouseleave', () => { tip.classList.remove('ver'); caja.querySelectorAll('.b').forEach(b => b.classList.remove('on')); });
+  });
+}
+const fechaCorta = d => { const [y, m, dd] = d.split('-'); return Number(dd) + ' ' + ['ene','feb','mar','abr','may','jun','jul','ago','sep','oct','nov','dic'][m - 1]; };
+
+function pintarHbars(id, clave, limite) {
+  const conteo = {};
+  leads.forEach(l => { const k = clave(l); conteo[k] = (conteo[k] || 0) + 1; });
+  let filas = Object.entries(conteo).sort((a, b) => b[1] - a[1]);
+  if (limite && filas.length > limite) {
+    const resto = filas.slice(limite - 1).reduce((s, f) => s + f[1], 0);
+    filas = filas.slice(0, limite - 1).concat([['Otros', resto]]);
+  }
+  const max = Math.max(1, ...filas.map(f => f[1])), total = leads.length || 1;
+  $(id).innerHTML = filas.length ? filas.map(([k, n]) =>
+    '<div class="hbar" title="' + esc(k) + ': ' + n + '"><span class="lab">' + esc(k) + '</span><span class="pista"><span class="val" style="display:block;width:' + (n / max * 100) + '%"></span></span><span class="n">' + n + ' · ' + Math.round(n / total * 100) + '%</span></div>'
+  ).join('') : '<p class="nota">Sin datos todavía</p>';
+}
+
+function pintarChips() {
+  const cuenta = e => leads.filter(l => (l.estado || 'Nuevo') === e).length;
+  $('chips-estado').innerHTML = '<button class="chip' + (filtroEstado ? '' : ' on') + '" data-e="">Todos <b>' + leads.length + '</b></button>' +
+    estados.map(e => '<button class="chip' + (filtroEstado === e ? ' on' : '') + '" data-e="' + esc(e) + '">' + esc(e) + ' <b>' + cuenta(e) + '</b></button>').join('');
+}
+$('chips-estado').addEventListener('click', e => {
+  const c = e.target.closest('.chip'); if (!c) return;
+  filtroEstado = c.dataset.e; mostrados = POR_PAGINA; pintarChips(); pintarLista();
+});
+
+function pintarFrenosSelect() {
+  const sel = $('f-freno'), actual = sel.value;
+  const frenos = [...new Set(leads.map(l => l.freno).filter(Boolean))].sort();
+  sel.innerHTML = '<option value="">Todos los frenos</option>' + frenos.map(f => '<option>' + esc(f) + '</option>').join('') + '<option value="__sin">Sin respuesta</option>';
+  sel.value = actual;
+}
+
+function filtrados() {
+  const q = $('buscar').value.trim().toLowerCase(), fr = $('f-freno').value;
+  return leads.filter(l =>
+    (!filtroEstado || (l.estado || 'Nuevo') === filtroEstado) &&
+    (!fr || (fr === '__sin' ? !l.freno : l.freno === fr)) &&
+    (!q || (l.nombre + ' ' + l.email + ' ' + l.whatsapp).toLowerCase().includes(q)));
+}
+
+function hace(fecha) {
+  const s = (Date.now() - new Date(fecha)) / 1000;
+  if (s < 60) return 'hace un momento';
+  if (s < 3600) return 'hace ' + Math.floor(s / 60) + ' min';
+  if (s < 86400) return 'hace ' + Math.floor(s / 3600) + ' h';
+  if (s < 86400 * 7) return 'hace ' + Math.floor(s / 86400) + ' d';
+  return new Date(fecha).toLocaleDateString('es', { day: 'numeric', month: 'short' });
+}
+
+const iconoWa = '<svg viewBox="0 0 24 24" fill="currentColor"><path d="M17.5 14.4c-.3-.1-1.8-.9-2-1-.3-.1-.5-.1-.7.1-.2.3-.8 1-.9 1.2-.2.2-.3.2-.6.1-.3-.1-1.3-.5-2.4-1.5-.9-.8-1.5-1.8-1.7-2.1-.2-.3 0-.5.1-.6l.4-.5.3-.5c.1-.2 0-.4 0-.5l-.9-2.2c-.2-.6-.5-.5-.7-.5h-.6c-.2 0-.5.1-.8.4-.3.3-1 1-1 2.5s1.1 2.9 1.2 3.1c.1.2 2.1 3.2 5.1 4.5.7.3 1.3.5 1.7.6.7.2 1.4.2 1.9.1.6-.1 1.8-.7 2-1.4.3-.7.3-1.3.2-1.4-.1-.1-.3-.2-.6-.3zM12 21.8c-1.8 0-3.5-.5-5-1.4l-.4-.2-3.7 1 1-3.6-.2-.4c-1-1.6-1.5-3.4-1.5-5.2C2.2 6.6 6.6 2.2 12 2.2c2.6 0 5.1 1 6.9 2.9 1.8 1.8 2.9 4.3 2.9 6.9 0 5.4-4.4 9.8-9.8 9.8zm8.4-18.2C18.1 1.3 15.2 0 12 0 5.5 0 .1 5.3.1 11.9c0 2.1.5 4.1 1.6 5.9L0 24l6.3-1.7c1.7.9 3.7 1.4 5.7 1.4 6.6 0 11.9-5.3 11.9-11.9 0-3.2-1.2-6.2-3.5-8.4z"/></svg>';
+
+function pintarLista() {
+  const lista = filtrados();
+  $('conteo').textContent = lista.length.toLocaleString('es') + (lista.length === 1 ? ' persona' : ' personas');
+  if (!lista.length) { $('lista').innerHTML = '<p class="vacio">No hay leads con estos filtros.</p>'; $('btn-mas').hidden = true; return; }
+  $('lista').innerHTML = lista.slice(0, mostrados).map(l => {
+    const tel = l.whatsapp.replace(/\D/g, '');
+    const primer = esc((l.nombre || '').split(' ')[0]);
+    const msg = encodeURIComponent('Hola ' + (l.nombre || '').split(' ')[0] + ', te escribo de Suelta la lengua 👋');
+    return '<article class="lead" data-email="' + esc(l.email) + '">' +
+      '<div><div class="cab"><h3>' + esc(l.nombre) + '</h3><span class="cuando" title="' + esc(new Date(l.fecha).toLocaleString('es')) + '">' + hace(l.fecha) + '</span></div>' +
+      '<div class="datos" style="margin-top:6px"><a href="mailto:' + esc(l.email) + '">' + esc(l.email) + '</a>' + (l.whatsapp ? '<span>' + esc(l.whatsapp) + '</span>' : '') + '</div></div>' +
+      '<div class="tags">' + (l.freno ? '<span class="tag freno">' + esc(l.freno) + '</span>' : '') +
+        '<span class="tag">' + esc(l.origen || 'directo') + '</span>' +
+        (l.email_estado === 'pendiente' ? '<span class="tag pend">Email en cola</span>' : '') + '</div>' +
+      '<div style="display:grid;gap:8px"><div class="acciones"><select class="estado" aria-label="Estado de ' + primer + '">' +
+        estados.map(e => '<option' + ((l.estado || 'Nuevo') === e ? ' selected' : '') + '>' + esc(e) + '</option>').join('') + '</select>' +
+        (tel.length >= 8 ? '<a class="wa" href="https://wa.me/' + tel + '?text=' + msg + '" target="_blank" rel="noopener">' + iconoWa + 'WhatsApp</a>' : '') + '</div>' +
+        '<textarea class="notas" rows="1" placeholder="Notas…" aria-label="Notas de ' + primer + '">' + esc(l.notas) + '</textarea>' +
+        '<span class="guardado"></span></div>' +
+    '</article>';
+  }).join('');
+  $('btn-mas').hidden = lista.length <= mostrados;
+}
+$('btn-mas').addEventListener('click', () => { mostrados += POR_PAGINA; pintarLista(); });
+$('buscar').addEventListener('input', () => { mostrados = POR_PAGINA; pintarLista(); });
+$('f-freno').addEventListener('change', () => { mostrados = POR_PAGINA; pintarLista(); });
+
+/* ── Guardar estado y notas ── */
+async function guardarLead(card) {
+  const email = card.dataset.email, l = leads.find(x => x.email === email);
+  if (!l) return;
+  const estado = card.querySelector('.estado').value, notas = card.querySelector('.notas').value;
+  if (estado === l.estado && notas === l.notas) return;
+  const aviso = card.querySelector('.guardado');
+  aviso.className = 'guardado ver'; aviso.textContent = 'Guardando…';
+  try {
+    const r = await api({ accion: 'actualizar', token, email, estado, notas });
+    if (!r.ok) { if (r.error === 'sesion') return salir('Tu sesión expiró. Vuelve a entrar.'); throw new Error(r.error); }
+    l.estado = estado; l.notas = notas;
+    aviso.textContent = 'Guardado ✓';
+    pintarChips();
+    setTimeout(() => aviso.classList.remove('ver'), 1500);
+  } catch (err) {
+    aviso.className = 'guardado ver error'; aviso.textContent = 'No se guardó. Vuelve a intentarlo.';
+  }
+}
+$('lista').addEventListener('change', e => { if (e.target.matches('.estado')) guardarLead(e.target.closest('.lead')); });
+$('lista').addEventListener('focusout', e => { if (e.target.matches('.notas')) guardarLead(e.target.closest('.lead')); });
+
+/* ── CSV ── */
+$('btn-csv').addEventListener('click', () => {
+  const cols = ['fecha', 'nombre', 'email', 'whatsapp', 'freno', 'origen', 'estado', 'notas', 'email_estado'];
+  const celda = v => { let s = String(v == null ? '' : v); if (/^[=+\-@]/.test(s)) s = "'" + s; return '"' + s.replace(/"/g, '""') + '"'; };
+  const csv = '﻿' + [cols.join(',')].concat(filtrados().map(l => cols.map(c => celda(l[c])).join(','))).join('\n');
+  const a = document.createElement('a');
+  a.href = URL.createObjectURL(new Blob([csv], { type: 'text/csv;charset=utf-8' }));
+  a.download = 'leads-suelta-' + hoyStr() + '.csv';
+  a.click(); setTimeout(() => URL.revokeObjectURL(a.href), 1000);
+});
+
+if (token) entrar(); else $('clave').focus();
+</script>
+</body>
+</html>
