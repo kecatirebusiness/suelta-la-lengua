@@ -88,6 +88,9 @@ h1 .l>span{display:inline-block}
 .frenos input:checked+label{background:var(--tinta);border-color:var(--tinta);color:#fff;animation:pop .4s var(--ease)}
 .frenos input:focus-visible+label{outline:2px solid var(--tinta);outline-offset:2px}
 @keyframes pop{40%{transform:scale(1.08)}}
+.otro{margin-top:10px;overflow:hidden}
+.otro .input{animation:aparece .35s var(--ease)}
+@keyframes aparece{from{opacity:0;transform:translateY(-6px)}}
 .tel{display:flex;gap:8px}
 .tel select{width:110px;flex:none;padding-right:28px;
   background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' fill='none' stroke='%2316161D' stroke-width='2'%3E%3Cpath d='M1 1.5l5 5 5-5'/%3E%3C/svg%3E");
@@ -184,6 +187,11 @@ h1 .l>span{display:inline-block}
             <input type="radio" name="freno" id="f3" value="Me veo raro"><label for="f3">Me veo raro</label>
             <input type="radio" name="freno" id="f4" value="Grabo mil tomas"><label for="f4">Grabo mil tomas</label>
             <input type="radio" name="freno" id="f5" value="Me da vergüenza"><label for="f5">Me da vergüenza</label>
+            <input type="radio" name="freno" id="f6" value="Me quedo en blanco"><label for="f6">Me quedo en blanco</label>
+            <input type="radio" name="freno" id="f7" value="Otro"><label for="f7">Otro</label>
+          </div>
+          <div class="otro" id="otro-caja" hidden>
+            <input class="input" id="otro" maxlength="120" placeholder="Cuéntame qué te cuesta" aria-label="Escribe qué parte quieres mejorar">
           </div>
         </div>
         <button class="btn" type="submit" id="enviar">Quiero el video
@@ -285,6 +293,14 @@ PAISES.forEach((p, i) => selPais.add(new Option(p[1], i)));
 selPais.add(new Option('Otro', 'otro'));
 selPais.value = elegido >= 0 ? elegido : 0;
 
+/* ── "Otro": abre una cajita para escribir ── */
+form.addEventListener('change', e => {
+  if (e.target.name !== 'freno') return;
+  const esOtro = e.target.value === 'Otro';
+  $('otro-caja').hidden = !esOtro;
+  if (esOtro) $('otro').focus();
+});
+
 /* ── Formulario ── */
 const form = $('form'), btn = $('enviar'), btnHTML = btn.innerHTML;
 const params = new URLSearchParams(location.search);
@@ -304,7 +320,8 @@ form.addEventListener('submit', async e => {
   const pais = selPais.value === 'otro' ? '' : PAISES[selPais.value][0] + ' ';
   btn.disabled = true; btn.innerHTML = '<span class="spinner"></span>Enviando…'; $('err-envio').hidden = true;
   try {
-    const freno = (form.querySelector('input[name=freno]:checked') || {}).value || '';
+    let freno = (form.querySelector('input[name=freno]:checked') || {}).value || '';
+    if (freno === 'Otro') { const t = $('otro').value.trim(); freno = t ? 'Otro: ' + t : ''; }
     const r = await enviar({ fuente: 'freeclass', nombre, email, whatsapp: pais + tel, freno, origen });
     window.__freno = freno;
     exito(nombre, email, r);
@@ -333,7 +350,7 @@ const iconoWa = '<svg viewBox="0 0 24 24" fill="currentColor"><path d="M17.5 14.
 function exito(nombre, email, r) {
   $('exito-titulo').textContent = 'Listo, ' + nombre.split(' ')[0] + '.';
   const FRASES = { 'Me trabo': 'dejes de trabarte', 'No sé qué decir': 'sepas qué decir', 'Me veo raro': 'te sientas cómodo en cámara',
-    'Grabo mil tomas': 'te salga a la primera', 'Me da vergüenza': 'pierdas la vergüenza' };
+    'Grabo mil tomas': 'te salga a la primera', 'Me da vergüenza': 'pierdas la vergüenza', 'Me quedo en blanco': 'no te quedes en blanco' };
   if (FRASES[window.__freno]) $('exito-texto').textContent = 'Te lo preparé para que ' + FRASES[window.__freno] + ' y empieces a soltarte. Te lo comparto por el canal de WhatsApp.';
   $('exito-email').textContent = email;
   // Mientras no exista el link del canal el botón se ve igual, pero avisa que viene pronto.
