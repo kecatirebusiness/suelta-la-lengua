@@ -178,7 +178,7 @@ h1 .l>span{display:inline-block}
         <h2 id="exito-titulo">Listo</h2>
         <p>Si estás aquí es porque quieres soltarte. Entra al canal de WhatsApp: ahí publicamos la clase y te avisamos el día.</p>
         <div id="exito-canal"></div>
-        <p class="correo">Te mandamos todo a <b id="exito-email"></b>. Si no lo ves en unos minutos, revisa Promociones o Spam.</p>
+        <p class="correo">Te mandamos todo a <b id="exito-email"></b>. Si cae en <b>Promociones</b>, arrástralo a <b>Principal</b> para que no te pierdas la clase.</p>
       </div>
       <div class="burbujas" id="burbujas" aria-hidden="true"></div>
     </div>
@@ -221,7 +221,6 @@ function entradaPagina() {
 function cerrarIntro() {
   if (introHecha) return;
   introHecha = true;
-  try { sessionStorage.setItem('fc_intro', '1'); } catch (e) {}
   if (!hayGsap || reduce) { intro.remove(); entradaPagina(); return; }
   gsap.timeline({ onComplete: () => intro.remove() })
     .to('.intro .centro', { scale: 1.08, opacity: 0, duration: .45, ease: 'power2.in' })
@@ -229,10 +228,8 @@ function cerrarIntro() {
     .add(entradaPagina, '-=.35');
 }
 
-let ya = false;
-try { ya = sessionStorage.getItem('fc_intro') === '1'; } catch (e) {}
-
-if (ya || reduce || !hayGsap) {
+// La intro sale cada vez que alguien entra (salvo quien tiene "reducir movimiento" activado).
+if (reduce || !hayGsap) {
   intro.remove(); introHecha = true; entradaPagina();
 } else {
   intro.addEventListener('click', cerrarIntro);
