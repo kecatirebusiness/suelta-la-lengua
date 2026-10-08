@@ -3,11 +3,11 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<title>Clase gratis · Suelta la lengua</title>
-<meta name="description" content="Clase gratis para aprender a hablar a cámara sin miedo y sin cortes. Aparta tu lugar.">
+<title>Un video para ti · Suelta la lengua</title>
+<meta name="description" content="Te preparé un video para que mejores esa parte que te frena y aprendas a soltarte frente a la cámara.">
 <meta name="theme-color" content="#16161D">
-<meta property="og:title" content="Clase gratis · Suelta la lengua">
-<meta property="og:description" content="Aprende a hablar a cámara sin miedo y sin cortes. Aparta tu lugar gratis.">
+<meta property="og:title" content="Te preparé un video para que aprendas a soltarte">
+<meta property="og:description" content="Para que mejores esa parte que te frena frente a la cámara. Gratis.">
 <meta property="og:image" content="https://sueltalalengua.com/assets/email-freeclass.png">
 <meta property="og:type" content="website">
 <link rel="icon" href="../assets/marca.svg" type="image/svg+xml">
@@ -78,6 +78,16 @@ h1 .l>span{display:inline-block}
 .campo .msg{display:none;font-size:13px;color:var(--rojo);margin-top:6px}
 .campo.error .msg{display:block}
 @keyframes sacudir{20%,60%{transform:translateX(-6px)}40%,80%{transform:translateX(6px)}}
+.campo .lbl{display:block;font-size:14px;font-weight:500;margin-bottom:8px}
+.campo .opc{font-weight:400;color:var(--tinta-suave)}
+.frenos{display:flex;flex-wrap:wrap;gap:8px}
+.frenos input{position:absolute;opacity:0;pointer-events:none}
+.frenos label{display:inline-flex;align-items:center;min-height:42px;padding:0 15px;margin:0;border:1.5px solid var(--linea);border-radius:999px;background:var(--fondo);
+  font-size:14px;font-weight:500;cursor:pointer;user-select:none;transition:transform .3s var(--ease),background .2s,border-color .2s,color .2s}
+.frenos label:active{transform:scale(.94)}
+.frenos input:checked+label{background:var(--tinta);border-color:var(--tinta);color:#fff;animation:pop .4s var(--ease)}
+.frenos input:focus-visible+label{outline:2px solid var(--tinta);outline-offset:2px}
+@keyframes pop{40%{transform:scale(1.08)}}
 .tel{display:flex;gap:8px}
 .tel select{width:110px;flex:none;padding-right:28px;
   background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' fill='none' stroke='%2316161D' stroke-width='2'%3E%3Cpath d='M1 1.5l5 5 5-5'/%3E%3C/svg%3E");
@@ -123,7 +133,7 @@ h1 .l>span{display:inline-block}
   <div class="barra"><span class="rec"><i></i><span id="reloj">00:00</span></span><span class="toma">TOMA 1 · SIN CORTES</span></div>
   <div class="centro">
     <img class="logo" src="../assets/logo-solido.svg" alt="">
-    <p class="clase" id="clase">CLASE <span>GRATIS</span></p>
+    <p class="clase" id="clase">UN VIDEO <span>PARA TI</span></p>
     <div class="linea-grad"></div>
   </div>
   <p class="saltar">Toca para saltar</p>
@@ -134,17 +144,17 @@ h1 .l>span{display:inline-block}
   <div class="col">
     <header class="top rv">
       <img src="../assets/logo.svg" alt="Suelta la lengua">
-      <span class="vivo"><span class="punto"></span>Cupos abiertos</span>
+      <span class="vivo"><span class="punto"></span>Video gratis</span>
     </header>
 
-    <p class="etiqueta rv">Clase gratis · en video</p>
-    <h1 aria-label="Aprende a hablar a cámara sin miedo y sin cortes">
-      <span class="l"><span>Aprende a hablar</span></span>
-      <span class="l"><span>a cámara</span></span>
-      <span class="l"><span>sin miedo y</span></span>
-      <span class="l"><span><span class="rojo subrayado">sin cortes<svg viewBox="0 0 200 14" preserveAspectRatio="none" aria-hidden="true"><path d="M3 9 C 50 2, 120 2, 197 7"/></svg></span></span></span>
+    <p class="etiqueta rv">De Roberto, para ti</p>
+    <h1 aria-label="Te preparé un video para que aprendas a soltarte">
+      <span class="l"><span>Te preparé</span></span>
+      <span class="l"><span>un video para</span></span>
+      <span class="l"><span>que aprendas</span></span>
+      <span class="l"><span>a <span class="rojo subrayado">soltarte<svg viewBox="0 0 200 14" preserveAspectRatio="none" aria-hidden="true"><path d="M3 9 C 50 2, 120 2, 197 7"/></svg></span></span></span>
     </h1>
-    <p class="sub rv">Aparta tu lugar. Te mandamos todo al correo.</p>
+    <p class="sub rv">Si te trabas, no sabes qué decir o grabas mil tomas, este video es para que mejores justo esa parte. Déjame tus datos y te lo mando.</p>
 
     <div class="card rv" id="card">
       <form id="form" novalidate>
@@ -164,9 +174,19 @@ h1 .l>span{display:inline-block}
             <select class="input" id="pais" aria-label="Código de país"></select>
             <input class="input" id="tel" type="tel" inputmode="tel" autocomplete="tel-national" placeholder="Número" maxlength="20">
           </div>
-          <p class="msg">Pon tu número para avisarte de la clase.</p>
+          <p class="msg">Pon tu número para mandarte el video.</p>
         </div>
-        <button class="btn" type="submit" id="enviar">Quiero mi clase gratis
+        <div class="campo">
+          <span class="lbl">¿Qué parte quieres mejorar? <span class="opc">(opcional)</span></span>
+          <div class="frenos" role="radiogroup">
+            <input type="radio" name="freno" id="f1" value="Me trabo"><label for="f1">Me trabo</label>
+            <input type="radio" name="freno" id="f2" value="No sé qué decir"><label for="f2">No sé qué decir</label>
+            <input type="radio" name="freno" id="f3" value="Me veo raro"><label for="f3">Me veo raro</label>
+            <input type="radio" name="freno" id="f4" value="Grabo mil tomas"><label for="f4">Grabo mil tomas</label>
+            <input type="radio" name="freno" id="f5" value="Me da vergüenza"><label for="f5">Me da vergüenza</label>
+          </div>
+        </div>
+        <button class="btn" type="submit" id="enviar">Quiero el video
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg></button>
         <p class="legal">Gratis. Sin spam. Te sales cuando quieras.</p>
         <p class="err-envio" id="err-envio" hidden>No pudimos enviarlo. Revisa tu conexión y vuelve a intentarlo.</p>
@@ -174,11 +194,11 @@ h1 .l>span{display:inline-block}
 
       <div class="exito" id="exito" hidden aria-live="polite">
         <div class="check"><svg viewBox="0 0 40 40"><path d="M10 21l7 7 14-15"/></svg></div>
-        <p class="etiqueta">Tu lugar está apartado</p>
+        <p class="etiqueta">El video va en camino</p>
         <h2 id="exito-titulo">Listo</h2>
-        <p>Si estás aquí es porque quieres soltarte. Entra al canal de WhatsApp: ahí publicamos la clase y te avisamos el día.</p>
+        <p id="exito-texto">Te lo preparé para que mejores esa parte y empieces a soltarte. Te lo comparto por el canal de WhatsApp.</p>
         <div id="exito-canal"></div>
-        <p class="correo">Te mandamos todo a <b id="exito-email"></b>. Si cae en <b>Promociones</b>, arrástralo a <b>Principal</b> para que no te pierdas la clase.</p>
+        <p class="correo">Te mandamos todo a <b id="exito-email"></b>. Si cae en <b>Promociones</b>, arrástralo a <b>Principal</b> para que no te pierdas el video.</p>
       </div>
       <div class="burbujas" id="burbujas" aria-hidden="true"></div>
     </div>
@@ -186,7 +206,7 @@ h1 .l>span{display:inline-block}
     <div class="chips rv">
       <span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg>Gratis</span>
       <span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg>En video</span>
-      <span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg>Solo necesitas tu celular</span>
+      <span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg>Desde tu celular</span>
     </div>
   </div>
   <p class="pie">Suelta la lengua · reto de 30 días</p>
@@ -282,9 +302,11 @@ form.addEventListener('submit', async e => {
   if (malos.some(Boolean)) { form.querySelector('.campo.error .input').focus(); return; }
 
   const pais = selPais.value === 'otro' ? '' : PAISES[selPais.value][0] + ' ';
-  btn.disabled = true; btn.innerHTML = '<span class="spinner"></span>Apartando tu lugar…'; $('err-envio').hidden = true;
+  btn.disabled = true; btn.innerHTML = '<span class="spinner"></span>Enviando…'; $('err-envio').hidden = true;
   try {
-    const r = await enviar({ fuente: 'freeclass', nombre, email, whatsapp: pais + tel, origen });
+    const freno = (form.querySelector('input[name=freno]:checked') || {}).value || '';
+    const r = await enviar({ fuente: 'freeclass', nombre, email, whatsapp: pais + tel, freno, origen });
+    window.__freno = freno;
     exito(nombre, email, r);
   } catch (err) {
     console.error(err);
@@ -310,11 +332,14 @@ const iconoWa = '<svg viewBox="0 0 24 24" fill="currentColor"><path d="M17.5 14.
 
 function exito(nombre, email, r) {
   $('exito-titulo').textContent = 'Listo, ' + nombre.split(' ')[0] + '.';
+  const FRASES = { 'Me trabo': 'dejes de trabarte', 'No sé qué decir': 'sepas qué decir', 'Me veo raro': 'te sientas cómodo en cámara',
+    'Grabo mil tomas': 'te salga a la primera', 'Me da vergüenza': 'pierdas la vergüenza' };
+  if (FRASES[window.__freno]) $('exito-texto').textContent = 'Te lo preparé para que ' + FRASES[window.__freno] + ' y empieces a soltarte. Te lo comparto por el canal de WhatsApp.';
   $('exito-email').textContent = email;
   // Mientras no exista el link del canal el botón se ve igual, pero avisa que viene pronto.
   $('exito-canal').innerHTML = r.canal
-    ? '<a class="btn" style="margin:18px 0 0" href="' + r.canal + '" target="_blank" rel="noopener">' + iconoWa + 'Entrar al canal de WhatsApp</a>'
-    : '<a class="btn" style="margin:18px 0 0" href="#" onclick="return false">' + iconoWa + 'Entrar al canal de WhatsApp</a>' +
+    ? '<a class="btn" style="margin:18px 0 0" href="' + r.canal + '" target="_blank" rel="noopener">' + iconoWa + 'Quiero ver el video</a>'
+    : '<a class="btn" style="margin:18px 0 0" href="#" onclick="return false">' + iconoWa + 'Quiero ver el video</a>' +
       '<p class="legal">El link del canal se activa muy pronto.</p>';
   form.hidden = true; $('exito').hidden = false;
   $('card').scrollIntoView({ behavior: reduce ? 'auto' : 'smooth', block: 'center' });
