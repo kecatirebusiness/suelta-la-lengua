@@ -104,6 +104,13 @@ section{margin-top:20px}
 .lead textarea{min-height:44px;padding:10px 12px;resize:vertical;font-size:14px}
 .guardado{font-size:12px;color:var(--verde);height:16px;opacity:0;transition:opacity .3s}
 .guardado.ver{opacity:1} .guardado.error{color:var(--rojo)}
+.pie-lead{display:flex;justify-content:space-between;align-items:center;gap:8px;min-height:32px}
+.borrar{display:inline-flex;align-items:center;gap:6px;min-height:32px;padding:0 12px;border:1.5px solid transparent;border-radius:999px;background:transparent;
+  color:var(--tinta-suave);font-size:13px;font-weight:500;cursor:pointer;transition:background .2s,color .2s,border-color .2s}
+.borrar svg{width:16px;height:16px}
+.borrar:hover{color:var(--rojo);background:var(--rojo-suave)}
+.borrar.confirmar{color:#fff;background:var(--rojo);border-color:var(--rojo)}
+.lead.saliendo{opacity:0;transform:scale(.97);transition:opacity .3s,transform .3s var(--ease)}
 .vacio{padding:40px 16px;text-align:center;color:var(--tinta-suave)}
 .mas{width:100%;margin:12px 0 0}
 .pie{padding:28px 0 40px;font-size:12px;color:var(--muda);text-align:center}
@@ -357,6 +364,8 @@ function hace(fecha) {
 
 const iconoWa = '<svg viewBox="0 0 24 24" fill="currentColor"><path d="M17.5 14.4c-.3-.1-1.8-.9-2-1-.3-.1-.5-.1-.7.1-.2.3-.8 1-.9 1.2-.2.2-.3.2-.6.1-.3-.1-1.3-.5-2.4-1.5-.9-.8-1.5-1.8-1.7-2.1-.2-.3 0-.5.1-.6l.4-.5.3-.5c.1-.2 0-.4 0-.5l-.9-2.2c-.2-.6-.5-.5-.7-.5h-.6c-.2 0-.5.1-.8.4-.3.3-1 1-1 2.5s1.1 2.9 1.2 3.1c.1.2 2.1 3.2 5.1 4.5.7.3 1.3.5 1.7.6.7.2 1.4.2 1.9.1.6-.1 1.8-.7 2-1.4.3-.7.3-1.3.2-1.4-.1-.1-.3-.2-.6-.3zM12 21.8c-1.8 0-3.5-.5-5-1.4l-.4-.2-3.7 1 1-3.6-.2-.4c-1-1.6-1.5-3.4-1.5-5.2C2.2 6.6 6.6 2.2 12 2.2c2.6 0 5.1 1 6.9 2.9 1.8 1.8 2.9 4.3 2.9 6.9 0 5.4-4.4 9.8-9.8 9.8zm8.4-18.2C18.1 1.3 15.2 0 12 0 5.5 0 .1 5.3.1 11.9c0 2.1.5 4.1 1.6 5.9L0 24l6.3-1.7c1.7.9 3.7 1.4 5.7 1.4 6.6 0 11.9-5.3 11.9-11.9 0-3.2-1.2-6.2-3.5-8.4z"/></svg>';
 
+const iconoBorrar = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 7h16M10 11v6M14 11v6M6 7l1 12a2 2 0 0 0 2 2h6a2 2 0 0 0 2-2l1-12M9 7V4h6v3"/></svg>';
+
 function pintarLista() {
   const lista = filtrados();
   $('conteo').textContent = lista.length.toLocaleString('es') + (lista.length === 1 ? ' persona' : ' personas');
@@ -375,7 +384,8 @@ function pintarLista() {
         estados.map(e => '<option' + ((l.estado || 'Nuevo') === e ? ' selected' : '') + '>' + esc(e) + '</option>').join('') + '</select>' +
         (tel.length >= 8 ? '<a class="wa" href="https://wa.me/' + tel + '?text=' + msg + '" target="_blank" rel="noopener">' + iconoWa + 'WhatsApp</a>' : '') + '</div>' +
         '<textarea class="notas" rows="1" placeholder="Notas…" aria-label="Notas de ' + primer + '">' + esc(l.notas) + '</textarea>' +
-        '<span class="guardado"></span></div>' +
+        '<div class="pie-lead"><span class="guardado"></span>' +
+        '<button type="button" class="borrar" aria-label="Borrar a ' + primer + '">' + iconoBorrar + '<span>Borrar</span></button></div></div>' +
     '</article>';
   }).join('');
   $('btn-mas').hidden = lista.length <= mostrados;
@@ -405,6 +415,30 @@ async function guardarLead(card) {
 }
 $('lista').addEventListener('change', e => { if (e.target.matches('.estado')) guardarLead(e.target.closest('.lead')); });
 $('lista').addEventListener('focusout', e => { if (e.target.matches('.notas')) guardarLead(e.target.closest('.lead')); });
+
+/* ── Borrar (dos toques: "Borrar" → "¿Seguro?") ── */
+$('lista').addEventListener('click', async e => {
+  const btn = e.target.closest('.borrar'); if (!btn) return;
+  const card = btn.closest('.lead'), txt = btn.querySelector('span');
+  if (!btn.classList.contains('confirmar')) {
+    btn.classList.add('confirmar'); txt.textContent = '¿Seguro? Toca otra vez';
+    clearTimeout(btn._t);
+    btn._t = setTimeout(() => { btn.classList.remove('confirmar'); txt.textContent = 'Borrar'; }, 4000);
+    return;
+  }
+  clearTimeout(btn._t);
+  btn.disabled = true; txt.textContent = 'Borrando…';
+  try {
+    const r = await api({ accion: 'borrar', token, email: card.dataset.email });
+    if (!r.ok && r.error === 'sesion') return salir('Tu sesión expiró. Vuelve a entrar.');
+    if (!r.ok && r.error !== 'no_existe') throw new Error(r.error);
+    leads = leads.filter(l => l.email !== card.dataset.email);
+    card.classList.add('saliendo');
+    setTimeout(() => pintarTodo(true), 300);
+  } catch (err) {
+    btn.disabled = false; btn.classList.remove('confirmar'); txt.textContent = 'No se pudo borrar';
+  }
+});
 
 /* ── CSV ── */
 $('btn-csv').addEventListener('click', () => {
