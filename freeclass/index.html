@@ -339,7 +339,15 @@ async function enviar(datos, intento = 1) {
     if (!j.ok) throw new Error(j.error || 'error');
     return j;
   } catch (err) {
-    if (intento >= 3) throw err;
+    if (intento >= 3) {
+      // Último recurso: algunos navegadores dentro de apps (Instagram, TikTok) cortan la respuesta.
+      // sendBeacon entrega los datos aunque no podamos leer la respuesta; si llegan, el backend
+      // guarda el lead y manda el email igual.
+      if (navigator.sendBeacon && navigator.sendBeacon(API_URL, new Blob([JSON.stringify(datos)], { type: 'text/plain' }))) {
+        return { ok: true, beacon: true };
+      }
+      throw err;
+    }
     await new Promise(r => setTimeout(r, 900 * intento));
     return enviar(datos, intento + 1);
   }
