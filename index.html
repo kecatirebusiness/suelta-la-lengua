@@ -657,14 +657,21 @@ form.addEventListener('submit', async e => {
 
 // Reintenta solo: con miles de personas a la vez, Apps Script a veces responde tarde.
 async function enviar(datos, intento = 1) {
-  if (!API_URL) { await new Promise(r => setTimeout(r, 900)); return { ok: true, demo: true }; }
   try {
     const res = await fetch(API_URL, { method: 'POST', headers: { 'Content-Type': 'text/plain;charset=utf-8' }, body: JSON.stringify(datos) });
     const j = await res.json();
     if (!j.ok) throw new Error(j.error || 'error');
     return j;
   } catch (err) {
-    if (intento >= 3) throw err;
+    if (intento >= 3) {
+      // Último recurso: algunos navegadores dentro de apps (Instagram, TikTok) cortan la respuesta.
+      // sendBeacon entrega los datos aunque no podamos leer la respuesta; si llegan, el backend
+      // guarda el lead y manda el email igual.
+      if (navigator.sendBeacon && navigator.sendBeacon(API_URL, new Blob([JSON.stringify(datos)], { type: 'text/plain' }))) {
+        return { ok: true, beacon: true };
+      }
+      throw err;
+    }
     await new Promise(r => setTimeout(r, 900 * intento));
     return enviar(datos, intento + 1);
   }
