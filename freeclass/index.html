@@ -160,7 +160,7 @@ h1 .l>span{display:inline-block}
     <p class="sub rv">Si te trabas, no sabes qué decir o grabas mil tomas, este video es para que mejores justo esa parte. Déjame tus datos y te lo mando.</p>
 
     <div class="card rv" id="card">
-      <form id="form" novalidate>
+      <form id="form" novalidate action="#" onsubmit="return false">
         <div class="campo" data-campo="nombre">
           <label for="nombre">Tu nombre</label>
           <input class="input" id="nombre" name="nombre" autocomplete="given-name" placeholder="Cómo te llamas" maxlength="80">
@@ -293,6 +293,9 @@ PAISES.forEach((p, i) => selPais.add(new Option(p[1], i)));
 selPais.add(new Option('Otro', 'otro'));
 selPais.value = elegido >= 0 ? elegido : 0;
 
+/* ── Formulario ── */
+const form = $('form'), btn = $('enviar'), btnHTML = btn.innerHTML;
+
 /* ── "Otro": abre una cajita para escribir ── */
 form.addEventListener('change', e => {
   if (e.target.name !== 'freno') return;
@@ -300,9 +303,6 @@ form.addEventListener('change', e => {
   $('otro-caja').hidden = !esOtro;
   if (esOtro) $('otro').focus();
 });
-
-/* ── Formulario ── */
-const form = $('form'), btn = $('enviar'), btnHTML = btn.innerHTML;
 const params = new URLSearchParams(location.search);
 const origen = [params.get('utm_source'), params.get('utm_medium'), params.get('utm_campaign')].filter(Boolean).join(' / ')
   || document.referrer.replace(/^https?:\/\//, '').split('/')[0] || 'directo';
